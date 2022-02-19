@@ -54,6 +54,7 @@ def get_Z(bus):
 
 def main():
     bus = initialize()
+    print("Spin!")
     axis = None
     revolutions = 0
     while True:
