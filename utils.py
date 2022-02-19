@@ -67,6 +67,7 @@ def check(revolutions, axis):
 
 def main():
     bus = initialize()
+    lastZ = None
     print("Spin!")
     axis = None
     revolutions = 0
