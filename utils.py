@@ -101,6 +101,8 @@ def main():
             sleep(2.5)
             print("looks like nothing is happening")
         else:
+            print(current_max)
+            print("And " + str(revolutions))
             set_max(revolutions)
         sleep(0.01)
 
