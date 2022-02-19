@@ -105,7 +105,7 @@ def main():
                     from_='+447897016821',
                     to='+447711223376'
                 )
-            MSG_INFO = client.publish("IC.embedded/Useless_System", "User used " + str(revolutions * 1.5) + " sheets.")
+            MSG_INFO = mqtt_client.publish("IC.embedded/Useless_System", "User used " + str(revolutions * 1.5) + " sheets.")
             revolutions, axis = check(revolutions, axis)
             break
         sleep(0.01)
