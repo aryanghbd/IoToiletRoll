@@ -87,7 +87,6 @@ def main():
             axis = Z
         if Z > 8 and axis != None:
             revolutions = revolutions + 1
-            set_max(revolutions)
             print("Rolled! Number of revolutions: " + str(revolutions))
             print("You have now used: " + str(revolutions * 1.5) + " sheets of toilet paper.")
             axis = None
@@ -101,6 +100,8 @@ def main():
         if current_max == revolutions:
             sleep(2.5)
             print("looks like nothing is happening")
+        else:
+            set_max(revolutions)
         sleep(0.01)
 
 if __name__ == "__main__":
