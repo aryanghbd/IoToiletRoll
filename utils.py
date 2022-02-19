@@ -102,8 +102,10 @@ def main():
         #Check if user has not moved for some time.
         t_n = time.time()
         print(t_n - t_s)
-        if(t_n - t_s > 5):
-            print("Looks like nothing is happening")
+        if(t_n - t_s > 15):
+            revolutions, axis = check(revolutions, axis)
+            print("Resetting now")
+            break
         sleep(0.01)
 
 if __name__ == "__main__":
