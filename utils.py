@@ -20,7 +20,7 @@ y_reg_low = 0x2A
 
 z_reg_high = 0x2D
 z_reg_low = 0x2C
-max = None
+max = 0
 #Helpful global variables
 #bus = smbus2.SMBus(1)
 #bus.write_byte_data(0x18, 0x20, 0xA7) #Run accelerometer at 100Hz
