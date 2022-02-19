@@ -83,9 +83,6 @@ def main():
         X = get_X(bus)
         Y = get_Y(bus)
         Z = get_Z(bus)
-
-        if Z == lastZ:
-
         if Z < -7.5 and axis == None:
             axis = Z
         if Z > 8 and axis != None:
