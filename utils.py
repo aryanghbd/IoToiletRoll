@@ -18,8 +18,6 @@ z_reg_high = 0x2D
 z_reg_low = 0x2C
 
 #Helpful global variables
-axis = None
-revolutions = 0
 #bus = smbus2.SMBus(1)
 #bus.write_byte_data(0x18, 0x20, 0xA7) #Run accelerometer at 100Hz
 #bus.write_byte_data(0x18, 0x23, 0x00)
@@ -55,8 +53,9 @@ def get_Z(bus):
     return normalize(bus, device_addr, z_reg_low)
 
 def main():
-
     bus = initialize()
+    axis = None
+    revolutions = 0
     while True:
         X = get_X(bus)
         Y = get_Y(bus)
