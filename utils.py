@@ -1,5 +1,8 @@
+import os
+
 import smbus2
 from time import sleep
+from twilio.rest import Client
 
 #ESTABLISHING CONSTANT REGISTERS#
 
@@ -21,6 +24,9 @@ z_reg_low = 0x2C
 #bus = smbus2.SMBus(1)
 #bus.write_byte_data(0x18, 0x20, 0xA7) #Run accelerometer at 100Hz
 #bus.write_byte_data(0x18, 0x23, 0x00)
+account_sid = 'AC552ea4e452978a40ad8d0061fc83e077'
+auth_token = '244e9e2bc5d559fbc125ef58a2edc70a'
+client = Client(account_sid, auth_token)
 
 def reset():
     revolutions = 0
@@ -68,6 +74,12 @@ def main():
             print("Rolled! Number of revolutions: " + str(revolutions))
             print("You have now used: " + str(revolutions * 1.5) + " sheets of toilet paper.")
             axis = None
+            message = client.messages \
+                .create(
+                    body="You are taking a hench shit",
+                    from_='+19034377711',
+                    to='+447711223376'
+                )
         sleep(0.01)
 
 if __name__ == "__main__":
