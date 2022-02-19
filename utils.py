@@ -76,8 +76,8 @@ def main():
             axis = None
             message = client.messages \
                 .create(
-                    body="You are taking a hench shit",
-                    from_='+19034377711',
+                    body="You have currently taken " + str(revolutions * 1.5) + " sheets of toilet paper.",
+                    from_='+447897016821',
                     to='+447711223376'
                 )
         sleep(0.01)
