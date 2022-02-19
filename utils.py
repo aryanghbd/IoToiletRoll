@@ -3,6 +3,7 @@ import os
 import smbus2
 from time import sleep
 from twilio.rest import Client
+from threading import Timer
 
 #ESTABLISHING CONSTANT REGISTERS#
 
@@ -58,6 +59,12 @@ def get_Y(bus):
 def get_Z(bus):
     return normalize(bus, device_addr, z_reg_low)
 
+def check(revolutions, axis):
+    print("Sorry, resetting now!")
+    revolutions = 0
+    axis = None
+    return revolutions, axis
+
 def main():
     bus = initialize()
     print("Spin!")
@@ -67,6 +74,7 @@ def main():
         X = get_X(bus)
         Y = get_Y(bus)
         Z = get_Z(bus)
+        temp = revolutions
         if Z < -7.5 and axis == None:
             axis = Z
         if Z > 8 and axis != None:
@@ -80,6 +88,9 @@ def main():
                     from_='+447897016821',
                     to='+447711223376'
                 )
+        if revolutions == temp:
+            t = Timer(5, check, args=(revolutions, axis), kwargs=None)
+        #Check if user has not moved for some time.
         sleep(0.01)
 
 if __name__ == "__main__":
