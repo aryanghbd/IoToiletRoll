@@ -20,7 +20,7 @@ y_reg_low = 0x2A
 
 z_reg_high = 0x2D
 z_reg_low = 0x2C
-
+max = None
 #Helpful global variables
 #bus = smbus2.SMBus(1)
 #bus.write_byte_data(0x18, 0x20, 0xA7) #Run accelerometer at 100Hz
@@ -50,6 +50,13 @@ def normalize(bus, device, register):
         res = res - 65536
     return (res/16380) * 9.8
 
+def set_max(rev):
+    max = rev
+    return 0
+
+def get_max():
+    return max
+
 def get_X(bus):
     return normalize(bus, device_addr, x_reg_low)
 
@@ -71,17 +78,19 @@ def main():
     print("Spin!")
     axis = None
     revolutions = 0
+    current_max = get_max()
     while True:
         X = get_X(bus)
         Y = get_Y(bus)
         Z = get_Z(bus)
-        print(lastZ)
+
         if Z == lastZ:
-            t = Timer(5, check, args=(revolutions, axis), kwargs=None)
+
         if Z < -7.5 and axis == None:
             axis = Z
         if Z > 8 and axis != None:
             revolutions = revolutions + 1
+            set_max(revolutions)
             print("Rolled! Number of revolutions: " + str(revolutions))
             print("You have now used: " + str(revolutions * 1.5) + " sheets of toilet paper.")
             axis = None
@@ -91,9 +100,10 @@ def main():
                     from_='+447897016821',
                     to='+447711223376'
                 )
-        lastZ = Z
-        print(Z)
         #Check if user has not moved for some time.
+        if current_max == revolutions:
+            sleep(2.5)
+            print("looks like nothing is happening")
         sleep(0.01)
 
 if __name__ == "__main__":
