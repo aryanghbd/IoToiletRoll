@@ -26,7 +26,7 @@ revolutions = 0
 
 def reset():
     revolutions = 0
-    axis = None:
+    axis = None
 
 def initialize():
     bus = smbus2.SMBus(1)
@@ -66,7 +66,7 @@ def main():
         if Z > 8 and axis != None:
             revolutions = revolutions + 1
             print("Rolled! Number of revolutions: " + str(revolutions))
-            print("You have now used: " + str(revolutions * 2) + " sheets of toilet paper.")
+            print("You have now used: " + str(revolutions * 1.5) + " sheets of toilet paper.")
             axis = None
         sleep(0.01)
 
