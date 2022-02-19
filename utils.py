@@ -1,4 +1,5 @@
 import os
+import time
 
 import smbus2
 from time import sleep
@@ -74,11 +75,12 @@ def check(revolutions, axis):
 
 def main():
     bus = initialize()
-    lastZ = None
+    #lastZ = None
     print("Spin!")
     axis = None
     revolutions = 0
-    current_max = get_max()
+    #current_max = get_max()
+    t_s = time.time()
     while True:
         X = get_X(bus)
         Y = get_Y(bus)
@@ -96,14 +98,11 @@ def main():
                     from_='+447897016821',
                     to='+447711223376'
                 )
+            t_s = time.time()
         #Check if user has not moved for some time.
-        if current_max == revolutions:
-            sleep(2.5)
-            print("looks like nothing is happening")
-        else:
-            print(current_max)
-            print("And " + str(revolutions))
-            set_max(revolutions)
+        t_n = time.time()
+        if(t_n - t_s == 5):
+            print("Looks like nothing is happening")
         sleep(0.01)
 
 if __name__ == "__main__":
