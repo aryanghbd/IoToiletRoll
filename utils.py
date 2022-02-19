@@ -92,17 +92,17 @@ def main():
             print("Rolled! Number of revolutions: " + str(revolutions))
             print("You have now used: " + str(revolutions * 1.5) + " sheets of toilet paper.")
             axis = None
-            message = client.messages \
-                .create(
-                    body="You have currently taken " + str(revolutions * 1.5) + " sheets of toilet paper.",
-                    from_='+447897016821',
-                    to='+447711223376'
-                )
             t_s = time.time()
         #Check if user has not moved for some time.
         t_n = time.time()
         print(t_n - t_s)
         if(t_n - t_s > 15):
+            message = client.messages \
+                .create(
+                    body="This time you took " + str(revolutions * 1.5) + " sheets of toilet paper.",
+                    from_='+447897016821',
+                    to='+447711223376'
+                )
             revolutions, axis = check(revolutions, axis)
             print("Resetting now")
             break
