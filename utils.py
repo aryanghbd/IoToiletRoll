@@ -5,6 +5,7 @@ import smbus2
 from time import sleep
 from twilio.rest import Client
 from threading import Timer
+import paho.mqtt.client as mqtt
 
 #ESTABLISHING CONSTANT REGISTERS#
 
@@ -29,7 +30,8 @@ max = 0
 account_sid = 'AC552ea4e452978a40ad8d0061fc83e077'
 auth_token = '244e9e2bc5d559fbc125ef58a2edc70a'
 client = Client(account_sid, auth_token)
-
+mqtt_client = mqtt.Client()
+mqtt_client.connect("test.mosquitto.org", port=1883)
 def reset():
     revolutions = 0
     axis = None
@@ -103,8 +105,8 @@ def main():
                     from_='+447897016821',
                     to='+447711223376'
                 )
+            MSG_INFO = client.publish("IC.embedded/Useless_System", "User used " + str(revolutions * 1.5) + " sheets.")
             revolutions, axis = check(revolutions, axis)
-            print("Resetting now")
             break
         sleep(0.01)
 
