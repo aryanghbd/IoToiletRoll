@@ -75,6 +75,7 @@ def main():
         X = get_X(bus)
         Y = get_Y(bus)
         Z = get_Z(bus)
+        print(lastZ)
         if Z == lastZ:
             t = Timer(5, check, args=(revolutions, axis), kwargs=None)
         if Z < -7.5 and axis == None:
@@ -91,6 +92,7 @@ def main():
                     to='+447711223376'
                 )
         lastZ = Z
+        print(Z)
         #Check if user has not moved for some time.
         sleep(0.01)
 
