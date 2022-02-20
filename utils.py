@@ -170,11 +170,12 @@ def main():
             pass
     print("Household setup! You may now proceed to use the toilet.io device")
     print("Now waiting for user...")
-    await_users()
-    (name, number) = get_name_number()
-    print("Hello user: " + name)
-    bus = initialize()
-    measure(bus, name, number)
+    while True:
+        await_users()
+        (name, number) = get_name_number()
+        print("Hello user: " + name)
+        bus = initialize()
+        measure(bus, name, number)
 
 
 
