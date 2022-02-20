@@ -86,6 +86,12 @@ def check(revolutions, axis):
     axis = None
     return revolutions, axis
 
+def custom_msg(n):
+    if 1 < n < 5:
+        return "Didn't use much did you?"
+    if 6 < n < 10:
+        return "Damn."
+
 def main():
     mqtt_client = mqtt.Client()
     mqtt_client.connect("test.mosquitto.org", port=1883)
@@ -120,9 +126,10 @@ def main():
                 t_n = time.time()
                 print(t_n - t_s)
                 if(t_n - t_s > 15):
+                    custom_str = ""
                     message = client.messages \
                         .create(
-                            body="This time you took " + str(revolutions * 1.5) + " sheets of toilet paper.",
+                            body="This time you took " + str(revolutions * 1.5) + " sheets of toilet paper. " + custom_msg(revolutions * 1.5),
                             from_='+447897016821',
                             to='+447711223376'
                         )

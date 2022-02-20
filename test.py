@@ -2,11 +2,16 @@ import paho.mqtt.client as mqtt
 import requests
 import os
 from twilio.rest import Client
-msg = ""
 def on_message(client, userdata, message):
     mes = str(message.payload.decode("utf-8"))
-    print(mes)
+    global msg
+    msg = mes
 
+def set_msg(mess):
+    msg = mess
+
+def get_msg():
+    return msg
 
 
 account_sid = 'AC552ea4e452978a40ad8d0061fc83e077'
@@ -16,8 +21,13 @@ client = mqtt.Client()
 client.connect("test.mosquitto.org", port=1883)
 client.subscribe("IC.embedded/Useless_System")
 client.on_message = on_message
+client.loop_start()
 while True:
-    client.loop_start()
+    if len(msg) != 0:
+        print(msg)
+    else:
+        pass
+
 
 #Isolate the means of error checking
 
