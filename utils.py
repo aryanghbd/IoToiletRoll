@@ -47,7 +47,6 @@ def get_name_number():
     for person in household:
         if name == person['name']:
             return (person['name'], person['number'])
-    return "No User Found"
 
 def on_message(client, userdata, message):
     global current_msg, household, start_flag
