@@ -124,7 +124,10 @@ def main():
                     t_s = time.time()
                 #Check if user has not moved for some time.
                 t_n = time.time()
-                print(t_n - t_s)
+                #print(t_n - t_s)
+
+                print("Z: " + str(Z))
+
                 if(t_n - t_s > 15):
                     custom_str = ""
                     message = client.messages \
