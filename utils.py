@@ -99,10 +99,10 @@ def main():
     #mqtt_client.on_message = on_message
     #mqtt_client.loop_start()
     #while True:
-        name = get_msg()
-        print(name)
-        if name != "":
-            print("Hello user: " + get_msg())
+        #name = get_msg()
+        #print(name)
+        #if name != "":
+            #print("Hello user: " + get_msg())
             bus = initialize()
             #lastZ = None
             print("Spin!")
