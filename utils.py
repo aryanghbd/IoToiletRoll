@@ -166,7 +166,6 @@ def main():
                 #MSG_INFO = mqtt_client.publish("IC.embedded/Useless_System", "User used " + str(revolutions * 1.5) + " sheets.")
                 revolutions, axis = reset(revolutions, axis)
                 break
-            break
             sleep(0.01)
 
 if __name__ == "__main__":
