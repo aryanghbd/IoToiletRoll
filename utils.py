@@ -100,7 +100,8 @@ def reset(revolutions, axis):
     print("Sorry, resetting now!")
     revolutions = 0
     axis = None
-    global current_msg
+    global current_msg, start_flag
+    current_msg = ""
     start_flag = False
     return revolutions, axis
 
@@ -163,7 +164,7 @@ def main():
     mqtt_client.subscribe("IC.embedded/Useless_System")
     mqtt_client.on_message = on_message
     mqtt_client.loop_start()
-    bus = initialize()
+
     if not check_for_household():
         print("Waiting for household to be input")
         while not check_for_household():
@@ -175,9 +176,9 @@ def main():
             pass
         name = get_current_user()
         number = get_number()
-        if len(name) != 0:
-            print("Hello user: " + name)
-            measure(bus, name, number)
+        print("Hello user: " + name)
+        bus = initialize()
+        measure(bus, name, number)
 
 
 
