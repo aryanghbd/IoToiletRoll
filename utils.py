@@ -50,7 +50,7 @@ def get_name_number():
     return "No User Found"
 
 def on_message(client, userdata, message):
-    global current_msg, household, active_user
+    global current_msg, household, start_flag
     current_msg = str(message.payload.decode("utf-8"))
     if len(current_msg.split()) == 1 and len(household) != 0:
         start_flag = check_user(current_msg)
