@@ -145,11 +145,13 @@ def measure(bus, name, number):
             print(t_n - t_s)
             print("Z: " + str(Z))
             print("Axis: " + str(axis))
+            print("Revolutions: " + str(revolutions))
+            print(name)
             if(t_n - t_s > 15):
                 custom_str = ""
                 message = client.messages \
                     .create(
-                    body= "Hi, " + name + "This time you took " + str(revolutions * 1.5) + " sheets of toilet paper. " + custom_msg(revolutions * 1.5),
+                    body="Hi, " + name + "This time you took " + str(revolutions * 1.5) + " sheets of toilet paper. " + custom_msg(revolutions * 1.5),
                     from_='+447897016821',
                     to=number
                 )
