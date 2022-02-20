@@ -110,6 +110,11 @@ def custom_msg(n):
     if 6 < n < 10:
         return "Damn."
 
+def check_for_household():
+    if len(household) != 0:
+
+        return True
+
 def main():
     mqtt_client = mqtt.Client()
     mqtt_client.connect("test.mosquitto.org", port=1883)
@@ -117,13 +122,13 @@ def main():
     mqtt_client.on_message = on_message
     mqtt_client.loop_start()
     while True:
-        if len(household) != 0:
+        if check_for_household():
             print("Household setup! You may now proceed to use the toilet.io device")
             print("Now waiting for user...")
-            if start_flag:
+            while start_flag:
                 (name, number) = get_name_number()
                 print("Hello user: " + name)
-                while start_flag:
+                while True:
                     bus = initialize()
                     #lastZ = None
                     print("Spin!")
