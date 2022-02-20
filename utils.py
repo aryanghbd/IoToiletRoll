@@ -42,10 +42,6 @@ def get_current_message():
     return current_msg
 #Getter function for ease of use
 
-def reset():
-    revolutions = 0
-    axis = None
-
 def initialize():
     bus = smbus2.SMBus(1)
     bus.write_byte_data(device_addr, ctrl_reg1, 0xA7) #A7 allows 100Hz standard operation enabling all 3 axes
@@ -79,10 +75,12 @@ def get_Y(bus):
 def get_Z(bus):
     return normalize(bus, device_addr, z_reg_low)
 
-def check(revolutions, axis):
+def reset(revolutions, axis):
     print("Sorry, resetting now!")
     revolutions = 0
     axis = None
+    global current_msg
+    current_msg = ''
     return revolutions, axis
 
 def custom_msg(n):
@@ -134,7 +132,7 @@ def main():
                             to='+447711223376'
                         )
                     #MSG_INFO = mqtt_client.publish("IC.embedded/Useless_System", "User used " + str(revolutions * 1.5) + " sheets.")
-                    revolutions, axis = check(revolutions, axis)
+                    revolutions, axis = reset(revolutions, axis)
                     break
                 sleep(0.01)
 
