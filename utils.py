@@ -94,6 +94,7 @@ def main():
     mqtt_client.loop_start()
     while True:
         name = get_msg()
+        print(name)
         if name != "":
             print("Hello user: " + get_msg())
             bus = initialize()
