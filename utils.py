@@ -93,12 +93,12 @@ def custom_msg(n):
         return "Damn."
 
 def main():
-    mqtt_client = mqtt.Client()
-    mqtt_client.connect("test.mosquitto.org", port=1883)
-    mqtt_client.subscribe("IC.embedded/Useless_System")
-    mqtt_client.on_message = on_message
-    mqtt_client.loop_start()
-    while True:
+    #mqtt_client = mqtt.Client()
+    #mqtt_client.connect("test.mosquitto.org", port=1883)
+    #mqtt_client.subscribe("IC.embedded/Useless_System")
+    #mqtt_client.on_message = on_message
+    #mqtt_client.loop_start()
+    #while True:
         name = get_msg()
         print(name)
         if name != "":
@@ -133,7 +133,7 @@ def main():
                             from_='+447897016821',
                             to='+447711223376'
                         )
-                    MSG_INFO = mqtt_client.publish("IC.embedded/Useless_System", "User used " + str(revolutions * 1.5) + " sheets.")
+                    #MSG_INFO = mqtt_client.publish("IC.embedded/Useless_System", "User used " + str(revolutions * 1.5) + " sheets.")
                     revolutions, axis = check(revolutions, axis)
                     break
                 sleep(0.01)
