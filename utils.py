@@ -102,6 +102,7 @@ def reset(revolutions, axis):
     axis = None
     global current_msg
     current_msg = ''
+    start_flag = False
     return revolutions, axis
 
 def custom_msg(n):
@@ -115,23 +116,12 @@ def check_for_household():
 
         return True
 
-def main():
-    mqtt_client = mqtt.Client()
-    mqtt_client.connect("test.mosquitto.org", port=1883)
-    mqtt_client.subscribe("IC.embedded/Useless_System")
-    mqtt_client.on_message = on_message
-    mqtt_client.loop_start()
-    if not check_for_household():
-        print("Waiting for household to be input")
-        while not check_for_household():
-            pass
-    print("Household setup! You may now proceed to use the toilet.io device")
-    print("Now waiting for user...")
+def await_users():
+    print("Now waiting for user input..")
     while not start_flag:
         pass
-    (name, number) = get_name_number()
-    print("Hello user: " + name)
-    bus = initialize()
+
+def measure(bus, name, number):
     while True:
         #lastZ = None
         axis = None
@@ -165,8 +155,28 @@ def main():
                 )
                 #MSG_INFO = mqtt_client.publish("IC.embedded/Useless_System", "User used " + str(revolutions * 1.5) + " sheets.")
                 revolutions, axis = reset(revolutions, axis)
-                break
+                return 0
             sleep(0.01)
+
+def main():
+    mqtt_client = mqtt.Client()
+    mqtt_client.connect("test.mosquitto.org", port=1883)
+    mqtt_client.subscribe("IC.embedded/Useless_System")
+    mqtt_client.on_message = on_message
+    mqtt_client.loop_start()
+    if not check_for_household():
+        print("Waiting for household to be input")
+        while not check_for_household():
+            pass
+    print("Household setup! You may now proceed to use the toilet.io device")
+    print("Now waiting for user...")
+    await_users()
+    (name, number) = get_name_number()
+    print("Hello user: " + name)
+    bus = initialize()
+    measure(bus, name, number)
+
+
 
 if __name__ == "__main__":
     main()
