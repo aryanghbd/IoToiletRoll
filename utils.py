@@ -131,8 +131,8 @@ def main():
         pass
     (name, number) = get_name_number()
     print("Hello user: " + name)
+    bus = initialize()
     while True:
-        bus = initialize()
         #lastZ = None
         print("Spin!")
         axis = None
