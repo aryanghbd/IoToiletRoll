@@ -32,6 +32,18 @@ auth_token = '244e9e2bc5d559fbc125ef58a2edc70a'
 client = Client(account_sid, auth_token)
 mqtt_client = mqtt.Client()
 mqtt_client.connect("test.mosquitto.org", port=1883)
+msg = ""
+
+def on_message(client, userdata, message):
+    decoded_msg = str(message.payload.decode("utf-8"))
+    set_msg(decoded_msg)
+
+def set_msg(msg_in):
+    msg = msg_in
+
+def get_msg():
+    return msg
+
 def reset():
     revolutions = 0
     axis = None
@@ -76,39 +88,42 @@ def check(revolutions, axis):
     return revolutions, axis
 
 def main():
-    bus = initialize()
-    #lastZ = None
-    print("Spin!")
-    axis = None
-    revolutions = 0
-    #current_max = get_max()
-    t_s = time.time()
-    while True:
-        X = get_X(bus)
-        Y = get_Y(bus)
-        Z = get_Z(bus)
-        if Z < -7.5 and axis == None:
-            axis = Z
-        if Z > 8 and axis != None:
-            revolutions = revolutions + 1
-            print("Rolled! Number of revolutions: " + str(revolutions))
-            print("You have now used: " + str(revolutions * 1.5) + " sheets of toilet paper.")
-            axis = None
-            t_s = time.time()
-        #Check if user has not moved for some time.
-        t_n = time.time()
-        print(t_n - t_s)
-        if(t_n - t_s > 15):
-            message = client.messages \
-                .create(
-                    body="This time you took " + str(revolutions * 1.5) + " sheets of toilet paper.",
-                    from_='+447897016821',
-                    to='+447711223376'
-                )
-            MSG_INFO = mqtt_client.publish("IC.embedded/Useless_System", "User used " + str(revolutions * 1.5) + " sheets.")
-            revolutions, axis = check(revolutions, axis)
-            break
-        sleep(0.01)
+
+    name = get_msg()
+    if name != "":
+        bus = initialize()
+        #lastZ = None
+        print("Spin!")
+        axis = None
+        revolutions = 0
+        #current_max = get_max()
+        t_s = time.time()
+        while True:
+            X = get_X(bus)
+            Y = get_Y(bus)
+            Z = get_Z(bus)
+            if Z < -7.5 and axis == None:
+                axis = Z
+            if Z > 8 and axis != None:
+                revolutions = revolutions + 1
+                print("Rolled! Number of revolutions: " + str(revolutions))
+                print("You have now used: " + str(revolutions * 1.5) + " sheets of toilet paper.")
+                axis = None
+                t_s = time.time()
+            #Check if user has not moved for some time.
+            t_n = time.time()
+            print(t_n - t_s)
+            if(t_n - t_s > 15):
+                message = client.messages \
+                    .create(
+                        body="This time you took " + str(revolutions * 1.5) + " sheets of toilet paper.",
+                        from_='+447897016821',
+                        to='+447711223376'
+                    )
+                MSG_INFO = mqtt_client.publish("IC.embedded/Useless_System", "User used " + str(revolutions * 1.5) + " sheets.")
+                revolutions, axis = check(revolutions, axis)
+                break
+            sleep(0.01)
 
 if __name__ == "__main__":
     main()
