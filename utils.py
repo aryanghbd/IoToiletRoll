@@ -37,7 +37,7 @@ household = []
 start_flag = False
 
 def check_user(username):
-    for person in household['members']:
+    for person in household:
         if username == person['name']:
             return True
     return False
