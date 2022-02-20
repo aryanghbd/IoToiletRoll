@@ -120,10 +120,10 @@ def main():
         if len(household) != 0:
             print("Household setup! You may now proceed to use the toilet.io device")
             print("Now waiting for user...")
-            while True:
-                if start_flag:
-                    (name, number) = get_name_number()
-                    print("Hello user: " + name)
+            if start_flag:
+                (name, number) = get_name_number()
+                print("Hello user: " + name)
+                while start_flag:
                     bus = initialize()
                     #lastZ = None
                     print("Spin!")
