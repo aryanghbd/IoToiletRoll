@@ -42,11 +42,12 @@ def check_user(username):
             return True
     return False
 
-def get_name_number():
+def get_number():
     name = get_current_user()
     for person in household:
         if name == person['name']:
-            return (person['name'], person['number'])
+            return (person['number'])
+
 
 def on_message(client, userdata, message):
     global current_msg, household, start_flag
@@ -172,7 +173,8 @@ def main():
         print("Now waiting for next user...")
         while not start_flag:
             pass
-        (name, number) = get_name_number()
+        name = get_current_user()
+        number = get_number()
         print("Hello user: " + name)
         bus = initialize()
         measure(bus, name, number)
