@@ -127,7 +127,7 @@ def main():
                 #print(t_n - t_s)
 
                 print("Z: " + str(Z))
-
+                print("Axis: " + str(axis))
                 if(t_n - t_s > 15):
                     custom_str = ""
                     message = client.messages \
