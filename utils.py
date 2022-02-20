@@ -120,7 +120,6 @@ def await_users():
     print("Now waiting for user input..")
     while not start_flag:
         pass
-    return get_name_number()
 
 def measure(bus, name, number):
     while True:
@@ -170,9 +169,11 @@ def main():
         while not check_for_household():
             pass
     print("Household setup! You may now proceed to use the toilet.io device")
-    print("Now waiting for user...")
     while True:
-        name, number = await_users()
+        print("Now waiting for next user...")
+        while not start_flag:
+            pass
+        (name, number) = get_name_number()
         print("Hello user: " + name)
         bus = initialize()
         measure(bus, name, number)
