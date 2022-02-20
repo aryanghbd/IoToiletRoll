@@ -31,17 +31,16 @@ account_sid = 'AC552ea4e452978a40ad8d0061fc83e077'
 auth_token = '244e9e2bc5d559fbc125ef58a2edc70a'
 client = Client(account_sid, auth_token)
 
-msg = ""
+current_msg = ''
+household = ['Aryan', 'Holly', 'Brandon', 'Osman']
 
 def on_message(client, userdata, message):
-    decoded_msg = str(message.payload.decode("utf-8"))
-    set_msg(decoded_msg)
+    global current_msg
+    current_msg = str(message.payload.decode("utf-8"))
 
-def set_msg(msg_in):
-    msg = msg_in
-
-def get_msg():
-    return msg
+def get_current_message():
+    return current_msg
+#Getter function for ease of use
 
 def reset():
     revolutions = 0
@@ -93,16 +92,15 @@ def custom_msg(n):
         return "Damn."
 
 def main():
-    #mqtt_client = mqtt.Client()
-    #mqtt_client.connect("test.mosquitto.org", port=1883)
-    #mqtt_client.subscribe("IC.embedded/Useless_System")
-    #mqtt_client.on_message = on_message
-    #mqtt_client.loop_start()
-    #while True:
-        #name = get_msg()
-        #print(name)
-        #if name != "":
-            #print("Hello user: " + get_msg())
+    mqtt_client = mqtt.Client()
+    mqtt_client.connect("test.mosquitto.org", port=1883)
+    mqtt_client.subscribe("IC.embedded/Useless_System")
+    mqtt_client.on_message = on_message
+    mqtt_client.loop_start()
+    while True:
+        name = get_current_message()
+        if name in household:
+            print("Hello user: " + name)
             bus = initialize()
             #lastZ = None
             print("Spin!")
