@@ -175,7 +175,7 @@ def main():
             pass
         name = get_current_user()
         number = get_number()
-        if len(name) is not 0:
+        if len(name) != 0:
             print("Hello user: " + name)
             measure(bus, name, number)
 
