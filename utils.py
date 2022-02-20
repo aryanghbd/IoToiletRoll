@@ -134,7 +134,6 @@ def main():
     bus = initialize()
     while True:
         #lastZ = None
-        print("Spin!")
         axis = None
         revolutions = 0
         #current_max = get_max()
