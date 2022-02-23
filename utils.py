@@ -159,7 +159,7 @@ def on_message(client, userdata, message):
         start_flag = check_user(current_msg)
     else:
         if message.topic == "IC.embedded/Useless_System/Household":
-            household = (json.loads(message))
+            household = (json.loads(current_msg))
             MSG = mqtt_client.publish("IC.embedded/Useless_System/Responses", "Household Setup! You may now use the device.")
 
 mqtt_client = mqtt.Client()
