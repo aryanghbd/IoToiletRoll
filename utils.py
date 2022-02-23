@@ -7,6 +7,8 @@ from twilio.rest import Client
 from threading import Timer
 import paho.mqtt.client as mqtt
 import json
+import random
+
 
 #Global client in order to pass into functions.
 
@@ -113,6 +115,20 @@ def await_users():
     while not start_flag:
         pass
 
+def generate_output_string(name, number):
+    greetings = ["What's up, ", "How's it hanging, or should I say... how's it rolling, ", "Greetings from the toilet, ", "All done, ", "Nice flush, "]
+    greeting = random.choice(greetings)
+    return greeting + name + ". This time round you used " + number + " sheets of toilet paper by our estimates."
+
+def dispatch_text(number, content):
+    message = client.messages \
+        .create(
+        body=content,
+        from_='+447897016821',
+        to=number
+    )
+    return 0
+
 def measure(bus, name, number):
     while True:
         #lastZ = None
@@ -142,12 +158,8 @@ def measure(bus, name, number):
             print(number)
             if(t_n - t_s > 15):
                 custom_str = ""
-                message = client.messages \
-                    .create(
-                    body="Hi, " + name + ". This time you took " + str(revolutions * 1.5) + " sheets of toilet paper. ", #+ custom_msg(revolutions * 1.5),
-                    from_='+447897016821',
-                    to=number
-                )
+                outstr = generate_output_string(name, (revolutions * 1.5))
+                dispatch_text(number, outstr)
                 MSG_INFO = mqtt_client.publish("IC.embedded/Useless_System/Data", "User used " + str(revolutions * 1.5) + " sheets.")
                 revolutions, axis = reset(revolutions, axis)
                 return 0
