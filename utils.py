@@ -80,13 +80,13 @@ def generate_meme(name, number):
     URL = 'https://api.imgflip.com/caption_image'
     memes = [1,2,3,4,5]
     id = random.choice(memes)
-    text0, text1 = generate_meme_text(name, number)
+    text0, text1 = generate_meme_text(id, name, number)
     params = {
         'username':username,
         'password':password,
         'template_id':memes[id-1]['id'],
-        'text0':"hello",
-        'text1':"world"
+        'text0':text0,
+        'text1':text1
     }
     response = requests.request('POST',URL,params=params).json()
     url = response['data']['url']
