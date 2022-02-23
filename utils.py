@@ -118,7 +118,7 @@ def await_users():
 def generate_output_string(name, number):
     greetings = ["What's up, ", "How's it hanging, or should I say... how's it rolling, ", "Greetings from the toilet, ", "All done, ", "Nice flush, "]
     greeting = random.choice(greetings)
-    return greeting + name + ". This time round you used " + number + " sheets of toilet paper by our estimates."
+    return greeting + name + ". This time round you used " + str(number) + " sheets of toilet paper by our estimates."
 
 def dispatch_text(number, content):
     message = client.messages \
