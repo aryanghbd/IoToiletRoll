@@ -5,7 +5,8 @@ auth_token = '244e9e2bc5d559fbc125ef58a2edc70a'
 #client = Client(account_sid, auth_token)
 
 def on_message(client, userdata, message):
-    print(message.topic)
+    if message.topic == "IC.embedded/Useless_System":
+        print(1)
 client = mqtt.Client()
 client.connect("test.mosquitto.org", port=1883)
 client.subscribe("IC.embedded/Useless_System")

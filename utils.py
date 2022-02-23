@@ -11,24 +11,6 @@ import json
 #Global client in order to pass into functions.
 
 
-def on_message(client, userdata, message):
-    global current_msg, household, start_flag
-    current_msg = str(message.payload.decode("utf-8"))
-    if len(current_msg.split()) == 1 and len(household) != 0:
-        start_flag = check_user(current_msg)
-    else:
-        if message.topic == "IC.embedded/Useless_System/Household":
-            household = (json.loads(message))
-            MSG = mqtt_client.publish("IC.embedded/Useless_System/Responses", "Household Setup! You may now use the device.")
-
-
-mqtt_client = mqtt.Client()
-mqtt_client.connect("test.mosquitto.org", port=1883)
-mqtt_client.subscribe("IC.embedded/Useless_System")
-mqtt_client.subscribe("IC.embedded/Useless_System")
-mqtt_client.on_message = on_message
-mqtt_client.loop_start()
-
 #ESTABLISHING CONSTANT REGISTERS#
 
 device_addr = 0x18
@@ -124,7 +106,6 @@ def custom_msg(n):
 
 def check_for_household():
     if len(household) != 0:
-
         return True
 
 def await_users():
@@ -171,6 +152,22 @@ def measure(bus, name, number):
                 return 0
             sleep(0.01)
 
+def on_message(client, userdata, message):
+    global current_msg, household, start_flag
+    current_msg = str(message.payload.decode("utf-8"))
+    if len(current_msg.split()) == 1 and len(household) != 0:
+        start_flag = check_user(current_msg)
+    else:
+        if message.topic == "IC.embedded/Useless_System/Household":
+            household = (json.loads(message))
+            MSG = mqtt_client.publish("IC.embedded/Useless_System/Responses", "Household Setup! You may now use the device.")
+
+mqtt_client = mqtt.Client()
+mqtt_client.connect("test.mosquitto.org", port=1883)
+mqtt_client.subscribe("IC.embedded/Useless_System")
+mqtt_client.subscribe("IC.embedded/Useless_System")
+mqtt_client.on_message = on_message
+mqtt_client.loop_start()
 def main():
     if not check_for_household():
         print("Waiting for household to be input")
