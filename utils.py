@@ -158,7 +158,7 @@ def on_message(client, userdata, message):
     if len(current_msg.split()) == 1 and len(household) != 0:
         start_flag = check_user(current_msg)
     else:
-        if message.topic == "IC.embedded/Useless_System/Household/":
+        if message.topic == "IC.embedded/Useless_System/Household":
             household = (json.loads(message))
             MSG = mqtt_client.publish("IC.embedded/Useless_System/Responses", "Household Setup! You may now use the device.")
 
