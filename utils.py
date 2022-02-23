@@ -59,7 +59,7 @@ def generate_meme_text(id, name, number):
             text0 = name + " using excessive amounts of toilet paper"
             text1 = name + " using toilet paper in moderation"
     if id == 2:
-            text0 = name + " using up " + number + " sheets of toilet paper"
+            text0 = name + " using up " + str((int)(number)) + " sheets of toilet paper"
             text1 = name + " planting " + str((int)(number)) + " trees instead"
     if id == 3:
             text0 = name + " being a friend to the environment"
