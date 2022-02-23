@@ -139,6 +139,7 @@ def measure(bus, name, number):
             print("Axis: " + str(axis))
             print("Revolutions: " + str(revolutions))
             print(name)
+            print(number)
             if(t_n - t_s > 15):
                 custom_str = ""
                 message = client.messages \
