@@ -84,7 +84,7 @@ def generate_meme(name, number):
     params = {
         'username':username,
         'password':password,
-        'template_id':memes[id-1]['id'],
+        'template_id':images[id-1]['id'],
         'text0':text0,
         'text1':text1
     }
