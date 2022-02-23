@@ -237,8 +237,8 @@ def measure(bus, name, number):
                 final = "A meme has been generated for you on the TOILET.IO Twitter page!"
                 body = outstr + custom_str + final
                 dispatch_text(number, body)
-
                 userdata = {"name":name, "sheets":sheets}
+                generate_meme(name, sheets)
                 MSG_INFO = mqtt_client.publish("IC.embedded/Useless_System/Data", json.dumps(userdata))
                 revolutions, axis = reset(revolutions, axis)
                 return 0
