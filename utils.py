@@ -1,6 +1,7 @@
 import os
 import time
-
+from flask import Flask, request, redirect
+from twilio.twiml.messaging_response import MessagingResponse
 import smbus2
 from time import sleep
 from twilio.rest import Client
@@ -11,6 +12,8 @@ import tweepy
 import random
 import requests
 import urllib
+
+app = Flask(__name__)
 
 #Global client in order to pass into functions.
 username = 'toilet.io'
@@ -111,6 +114,7 @@ def get_number():
             return (person['number'])
 
 
+
 def get_current_user():
     return current_msg
 #Getter function for ease of use
@@ -195,6 +199,8 @@ def dispatch_text(number, content):
     )
     return 0
 
+
+@app.route("/sms", methods=['GET', 'POST'])
 def measure(bus, name, number):
     while True:
         #lastZ = None
@@ -231,7 +237,18 @@ def measure(bus, name, number):
                 dispatch_text(number, body)
                 userdata = {"name":name, "sheets":sheets}
                 MSG_INFO = mqtt_client.publish("IC.embedded/Useless_System/Data", json.dumps(userdata))
-                generate_meme(name, sheets)
+                body = request.values.get('Body', None)
+
+                # Start our TwiML response
+                resp = MessagingResponse()
+
+                # Determine the right reply for this message
+                if body == 'YES':
+                    resp.message("Meme generated, check out Twitter!")
+                    generate_meme(name, sheets)
+                elif body == 'NO':
+                    resp.message("No meme generated")
+                print(str(resp))
                 revolutions, axis = reset(revolutions, axis)
                 return 0
             sleep(0.01)
@@ -273,3 +290,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+    app.run(debug=False)
