@@ -224,13 +224,14 @@ def measure(bus, name, number):
             print(number)
             print(revolutions * 1.5)
             if(t_n - t_s > 15):
-                custom_str = genetate_custom_string(revolutions * 1.5)
-                outstr = generate_output_string(name, (revolutions * 1.5))
+                sheets = revolutions * 1.5
+                custom_str = genetate_custom_string(sheets)
+                outstr = generate_output_string(name, sheets)
                 body = outstr + custom_str
                 dispatch_text(number, body)
-                userdata = {"name":name, "sheets":(revolutions*1.5)}
+                userdata = {"name":name, "sheets":sheets}
                 MSG_INFO = mqtt_client.publish("IC.embedded/Useless_System/Data", json.dumps(userdata))
-                generate_meme(name, (revolutions * 1.5))
+                generate_meme(name, sheets)
                 revolutions, axis = reset(revolutions, axis)
                 return 0
             sleep(0.01)
