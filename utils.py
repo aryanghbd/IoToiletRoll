@@ -122,13 +122,13 @@ def generate_output_string(name, number):
 
 def genetate_custom_string(number):
     if 1 < number < 3:
-        return "That was barely anything! Were you rolling for fun?"
+        return " That was barely anything! Were you rolling for fun?"
     if 4 < number < 10:
-        return "Nice usage! Keep up the moderate usage to help the environment one toilet trip at a time."
+        return " Nice usage! Keep up the moderate usage to help the environment one toilet trip at a time."
     if 11 < number < 25:
-        return "Are you flushing down a textbook? At " + str(number * 0.12) + "m, you rolled a small child or a baseball bat, do better."
+        return " Are you flushing down a textbook? At " + str(number * 0.12) + "m, you rolled a small child or a baseball bat, do better."
     if 26 < number < 40:
-        return "God damn."
+        return " God damn."
 def dispatch_text(number, content):
     message = client.messages \
         .create(
@@ -165,10 +165,11 @@ def measure(bus, name, number):
             print("Revolutions: " + str(revolutions))
             print(name)
             print(number)
+            print(revolutions * 1.5)
             if(t_n - t_s > 15):
                 custom_str = genetate_custom_string(revolutions * 1.5)
                 outstr = generate_output_string(name, (revolutions * 1.5))
-                body = outstr + " " + custom_str
+                body = outstr + custom_str
                 dispatch_text(number, body)
                 MSG_INFO = mqtt_client.publish("IC.embedded/Useless_System/Data", "User used " + str(revolutions * 1.5) + " sheets.")
                 revolutions, axis = reset(revolutions, axis)
