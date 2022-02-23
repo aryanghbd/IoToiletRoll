@@ -168,7 +168,7 @@ def measure(bus, name, number):
             if(t_n - t_s > 15):
                 custom_str = genetate_custom_string(revolutions * 1.5)
                 outstr = generate_output_string(name, (revolutions * 1.5))
-                body = outstr + custom_str
+                body = outstr + " " + custom_str
                 dispatch_text(number, body)
                 MSG_INFO = mqtt_client.publish("IC.embedded/Useless_System/Data", "User used " + str(revolutions * 1.5) + " sheets.")
                 revolutions, axis = reset(revolutions, axis)
