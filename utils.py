@@ -55,20 +55,19 @@ start_flag = False
 def generate_meme_text(id, name, number):
     text0 = ''
     text1 = ''
-    match id:
-        case 1:
+    if id == 1:
             text0 = name + " using excessive amounts of toilet paper"
             text1 = name + " using toilet paper in moderation"
-        case 2:
+    if id == 2:
             text0 = name + " using up " + number + " sheets of toilet paper"
             text1 = name + " planting " + str((int)(number)) + " trees instead"
-        case 3:
+    if id == 3:
             text0 = name + " being a friend to the environment"
             text1 = name + " using up " + str((int)(number)) + " sheets instead"
-        case 4:
+    if id == 4:
             text0 = name + " using " + str((int)(number)) + " sheets of toilet paper"
             text1 = name + " paying up for next week's TP budget"
-        case 5:
+    if id == 5:
             text0 = name + " being a friend to the trees"
             text1 = name
     return text0, text1
