@@ -232,7 +232,7 @@ def measure(bus, name, number):
                 sheets = revolutions * 1.5
                 custom_str = genetate_custom_string(sheets)
                 outstr = generate_output_string(name, sheets)
-                body = outstr + custom_str + " would you be interested in generating a meme based on your efforts?"
+                body = outstr + custom_str
                 dispatch_text(number, body)
                 userdata = {"name":name, "sheets":sheets}
                 MSG_INFO = mqtt_client.publish("IC.embedded/Useless_System/Data", json.dumps(userdata))
