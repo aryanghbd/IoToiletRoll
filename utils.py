@@ -143,7 +143,7 @@ def measure(bus, name, number):
                 custom_str = ""
                 message = client.messages \
                     .create(
-                    body="Hi, " + name + ". This time you took " + str(revolutions * 1.5) + " sheets of toilet paper. " #+ custom_msg(revolutions * 1.5),
+                    body="Hi, " + name + ". This time you took " + str(revolutions * 1.5) + " sheets of toilet paper. ", #+ custom_msg(revolutions * 1.5),
                     from_='+447897016821',
                     to=number
                 )
