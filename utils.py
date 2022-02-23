@@ -8,6 +8,27 @@ from threading import Timer
 import paho.mqtt.client as mqtt
 import json
 
+#Global client in order to pass into functions.
+
+
+def on_message(client, userdata, message):
+    global current_msg, household, start_flag
+    current_msg = str(message.payload.decode("utf-8"))
+    if len(current_msg.split()) == 1 and len(household) != 0:
+        start_flag = check_user(current_msg)
+    else:
+        if message.topic == "IC.embedded/Useless_System/Household":
+            household = (json.loads(message))
+            MSG = mqtt_client.publish("IC.embedded/Useless_System/Responses", "Household Setup! You may now use the device.")
+
+
+mqtt_client = mqtt.Client()
+mqtt_client.connect("test.mosquitto.org", port=1883)
+mqtt_client.subscribe("IC.embedded/Useless_System")
+mqtt_client.subscribe("IC.embedded/Useless_System")
+mqtt_client.on_message = on_message
+mqtt_client.loop_start()
+
 #ESTABLISHING CONSTANT REGISTERS#
 
 device_addr = 0x18
@@ -48,16 +69,6 @@ def get_number():
         if name == person['name']:
             return (person['number'])
 
-
-def on_message(client, userdata, message):
-    global current_msg, household, start_flag
-    current_msg = str(message.payload.decode("utf-8"))
-    if len(current_msg.split()) == 1 and len(household) != 0:
-        start_flag = check_user(current_msg)
-    else:
-        (firstWord, rest) = current_msg.split(maxsplit=1)
-        if firstWord == "HOUSEHOLD":
-            household = (json.loads(rest))
 
 def get_current_user():
     return current_msg
@@ -155,18 +166,12 @@ def measure(bus, name, number):
                     from_='+447897016821',
                     to=number
                 )
-                #MSG_INFO = mqtt_client.publish("IC.embedded/Useless_System", "User used " + str(revolutions * 1.5) + " sheets.")
+                MSG_INFO = mqtt_client.publish("IC.embedded/Useless_System/Data", "User used " + str(revolutions * 1.5) + " sheets.")
                 revolutions, axis = reset(revolutions, axis)
                 return 0
             sleep(0.01)
 
 def main():
-    mqtt_client = mqtt.Client()
-    mqtt_client.connect("test.mosquitto.org", port=1883)
-    mqtt_client.subscribe("IC.embedded/Useless_System")
-    mqtt_client.on_message = on_message
-    mqtt_client.loop_start()
-
     if not check_for_household():
         print("Waiting for household to be input")
         while not check_for_household():
