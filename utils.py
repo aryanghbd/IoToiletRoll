@@ -11,6 +11,7 @@ import json
 import tweepy
 import random
 import requests
+import threading
 import urllib
 
 app = Flask(__name__)
@@ -199,8 +200,6 @@ def dispatch_text(number, content):
     )
     return 0
 
-
-@app.route("/sms", methods=['GET', 'POST'])
 def measure(bus, name, number):
     while True:
         #lastZ = None
@@ -233,22 +232,28 @@ def measure(bus, name, number):
                 sheets = revolutions * 1.5
                 custom_str = genetate_custom_string(sheets)
                 outstr = generate_output_string(name, sheets)
-                body = outstr + custom_str
+                body = outstr + custom_str + " would you be interested in generating a meme based on your efforts?"
                 dispatch_text(number, body)
                 userdata = {"name":name, "sheets":sheets}
                 MSG_INFO = mqtt_client.publish("IC.embedded/Useless_System/Data", json.dumps(userdata))
-                body = request.values.get('Body', None)
+                @app.route("/sms", methods=['GET', 'POST'])
+                def incoming_sms():
+                    """Send a dynamic reply to an incoming text message"""
+                    # Get the message the user sent our Twilio number
+                    body = request.values.get('Body', None)
 
-                # Start our TwiML response
-                resp = MessagingResponse()
+                    # Start our TwiML response
+                    resp = MessagingResponse()
 
-                # Determine the right reply for this message
-                if body == 'YES':
-                    resp.message("Meme generated, check out Twitter!")
-                    generate_meme(name, sheets)
-                elif body == 'NO':
-                    resp.message("No meme generated")
-                print(str(resp))
+                    # Determine the right reply for this message
+                    if body == 'YES':
+                        resp.message("Meme generated, check out Twitter!")
+                        generate_meme(name, number)
+                    elif body == 'NO':
+                        resp.message("No meme generated")
+
+                    return str(resp)
+                threading.Thread(target=incoming_sms).start()
                 revolutions, axis = reset(revolutions, axis)
                 return 0
             sleep(0.01)
@@ -290,4 +295,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-    app.run(debug=False)
