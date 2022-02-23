@@ -10,6 +10,11 @@ household = {}
 
 active_user = False
 
+current_sheets = 0.0
+
+def get_final_sheets():
+    return current_sheets
+
 def check_user(username):
     for person in household:
         if username == person['name']:

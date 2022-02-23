@@ -13,6 +13,7 @@ import random
 import requests
 import threading
 import urllib
+import subprocess
 
 app = Flask(__name__)
 
@@ -55,6 +56,11 @@ client = Client(account_sid, auth_token)
 current_msg = ''
 household = []
 start_flag = False
+
+current_sheets = 0.0
+
+def get_final_sheets():
+    return current_sheets
 
 def generate_meme_text(id, name, number):
     text0 = ''
@@ -160,13 +166,9 @@ def reset(revolutions, axis):
     global current_msg, start_flag
     current_msg = ""
     start_flag = False
+    global current_sheets
+    current_sheets = 0.0
     return revolutions, axis
-
-def custom_msg(n):
-    if 1 < n < 5:
-        return "Didn't use much did you?"
-    if 6 < n < 10:
-        return "Damn."
 
 def check_for_household():
     if len(household) != 0:
@@ -232,8 +234,10 @@ def measure(bus, name, number):
                 sheets = revolutions * 1.5
                 custom_str = genetate_custom_string(sheets)
                 outstr = generate_output_string(name, sheets)
-                body = outstr + custom_str
+                final = "A meme has been generated for you on the TOILET.IO Twitter page!"
+                body = outstr + custom_str + final
                 dispatch_text(number, body)
+
                 userdata = {"name":name, "sheets":sheets}
                 MSG_INFO = mqtt_client.publish("IC.embedded/Useless_System/Data", json.dumps(userdata))
                 revolutions, axis = reset(revolutions, axis)
