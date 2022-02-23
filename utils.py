@@ -236,24 +236,6 @@ def measure(bus, name, number):
                 dispatch_text(number, body)
                 userdata = {"name":name, "sheets":sheets}
                 MSG_INFO = mqtt_client.publish("IC.embedded/Useless_System/Data", json.dumps(userdata))
-                @app.route("/sms", methods=['GET', 'POST'])
-                def incoming_sms():
-                    """Send a dynamic reply to an incoming text message"""
-                    # Get the message the user sent our Twilio number
-                    body = request.values.get('Body', None)
-
-                    # Start our TwiML response
-                    resp = MessagingResponse()
-
-                    # Determine the right reply for this message
-                    if body == 'YES':
-                        resp.message("Meme generated, check out Twitter!")
-                        generate_meme(name, number)
-                    elif body == 'NO':
-                        resp.message("No meme generated")
-
-                    return str(resp)
-                threading.Thread(target=incoming_sms).start()
                 revolutions, axis = reset(revolutions, axis)
                 return 0
             sleep(0.01)
