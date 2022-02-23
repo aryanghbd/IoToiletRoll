@@ -165,7 +165,7 @@ def on_message(client, userdata, message):
 mqtt_client = mqtt.Client()
 mqtt_client.connect("test.mosquitto.org", port=1883)
 mqtt_client.subscribe("IC.embedded/Useless_System")
-mqtt_client.subscribe("IC.embedded/Useless_System")
+mqtt_client.subscribe("IC.embedded/Useless_System/Household")
 mqtt_client.on_message = on_message
 mqtt_client.loop_start()
 def main():
