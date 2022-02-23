@@ -171,7 +171,8 @@ def measure(bus, name, number):
                 outstr = generate_output_string(name, (revolutions * 1.5))
                 body = outstr + custom_str
                 dispatch_text(number, body)
-                MSG_INFO = mqtt_client.publish("IC.embedded/Useless_System/Data", "User used " + str(revolutions * 1.5) + " sheets.")
+                userdata = {"name":name, "sheets":(revolutions*1.5)}
+                MSG_INFO = mqtt_client.publish("IC.embedded/Useless_System/Data", json.dumps(userdata))
                 revolutions, axis = reset(revolutions, axis)
                 return 0
             sleep(0.01)
