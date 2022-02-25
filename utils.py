@@ -204,6 +204,7 @@ def dispatch_text(number, content):
     return 0
 
 def measure(bus, name, number):
+    dispatch_text(number, "You may now begin rolling.")
     while True:
         #lastZ = None
         axis = None
@@ -280,10 +281,10 @@ def incoming_sms():
     # Determine the right reply for this message
     if body == 'MEME':
         meme_flag = True
-        resp.message("A meme has been generated for your current session on @toiletdotio")
+        resp.message("Time to start rolling, " + get_current_user() + ", we'll handle the memes.")
     elif body == 'NO MEME':
         meme_flag = False
-        resp.message("Response acknowledged, thank you for using")
+        resp.message("Response acknowledged, you may now roll")
 
     return str(resp)
 
