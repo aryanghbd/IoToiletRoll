@@ -204,7 +204,6 @@ def dispatch_text(number, content):
     return 0
 
 def measure(bus, name, number):
-    dispatch_text(number, "Welcome user " + name + " Would you like a meme for your current session?")
     while True:
         #lastZ = None
         axis = None
