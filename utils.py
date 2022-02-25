@@ -56,6 +56,7 @@ client = Client(account_sid, auth_token)
 current_msg = ''
 household = []
 start_flag = False
+meme_flag = None
 
 current_sheets = 0.0
 
@@ -163,10 +164,10 @@ def reset(revolutions, axis):
     print("Sorry, resetting now!")
     revolutions = 0
     axis = None
-    global current_msg, start_flag
+    global current_msg, start_flag, meme_flag, current_sheets
     current_msg = ""
     start_flag = False
-    global current_sheets
+    meme_flag = None
     current_sheets = 0.0
     return revolutions, axis
 
@@ -234,11 +235,12 @@ def measure(bus, name, number):
                 sheets = revolutions * 1.5
                 custom_str = genetate_custom_string(sheets)
                 outstr = generate_output_string(name, sheets)
-                final = "A meme has been generated for you on the TOILET.IO Twitter page!"
+                final = ". Would you be interested in generating a meme for your current session?"
                 body = outstr + custom_str + final
                 dispatch_text(number, body)
                 userdata = {"name":name, "sheets":sheets}
-                generate_meme(name, sheets)
+                if meme_flag:
+                    generate_meme(name, sheets)
                 MSG_INFO = mqtt_client.publish("IC.embedded/Useless_System/Data", json.dumps(userdata))
                 revolutions, axis = reset(revolutions, axis)
                 return 0
@@ -269,12 +271,14 @@ def incoming_sms():
 
     # Start our TwiML response
     resp = MessagingResponse()
-
+    global meme_flag
     # Determine the right reply for this message
-    if body == 'YES':
-        resp.message("Meme generated")
-    elif body == 'NO':
-        resp.message(":D")
+    if body == 'MEME':
+        meme_flag = True
+        resp.message("A meme has been generated for your current session on @toiletdotio")
+    elif body == 'NO MEME':
+        meme_flag = False
+        resp.message("Response acknowledged, thank you for using")
 
     return str(resp)
 
