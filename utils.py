@@ -236,7 +236,7 @@ def measure(bus, name, number):
                 sheets = revolutions * 1.5
                 custom_str = genetate_custom_string(sheets)
                 outstr = generate_output_string(name, sheets)
-                body = outstr + custom_str + final
+                body = outstr + custom_str
                 dispatch_text(number, body)
                 userdata = {"name":name, "sheets":sheets}
                 if meme_flag:
@@ -302,7 +302,7 @@ def main():
         name = get_current_user()
         number = get_number()
         print("Hello user: " + name)
-        dispatch_text(number, "Welcome user: " + name + "Would you be interested in a meme after your session finishes?")
+        dispatch_text(number, "Welcome user: " + name + " Would you be interested in a meme after your session finishes?")
         while meme_flag == None:
             pass
         bus = initialize()
