@@ -302,7 +302,7 @@ def main():
         name = get_current_user()
         number = get_number()
         print("Hello user: " + name)
-        dispatch_text(number, "Meme or no meme?")
+        dispatch_text(number, "Welcome user: " + name + "Would you be interested in a meme after your session finishes?")
         while meme_flag == None:
             pass
         bus = initialize()
