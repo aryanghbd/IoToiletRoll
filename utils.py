@@ -300,6 +300,10 @@ def main():
             pass
         name = get_current_user()
         number = get_number()
+        print("Hello user: " + name)
+        dispatch_text(number, "Meme or no meme?")
+        while meme_flag == None:
+            pass
         bus = initialize()
         measure(bus, name, number)
 
