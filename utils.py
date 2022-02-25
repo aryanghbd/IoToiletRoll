@@ -241,7 +241,7 @@ def measure(bus, name, number):
                 userdata = {"name":name, "sheets":sheets}
                 if meme_flag:
                     generate_meme(name, sheets)
-                    dispatch_text(number, ". A meme has been generated for you on @toiletdotio, thanks for using!")
+                    dispatch_text(number, "A meme has been generated for you on @toiletdotio, thanks for using!")
                 MSG_INFO = mqtt_client.publish("IC.embedded/Useless_System/Data", json.dumps(userdata))
                 revolutions, axis = reset(revolutions, axis)
                 return 0
