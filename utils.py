@@ -204,6 +204,7 @@ def dispatch_text(number, content):
     return 0
 
 def measure(bus, name, number):
+    dispatch_text(number, "Welcome user " + name + " Would you like a meme for your current session?")
     while True:
         #lastZ = None
         axis = None
@@ -246,6 +247,11 @@ def measure(bus, name, number):
                 return 0
             sleep(0.01)
 
+def synch_wait(time):
+    t_s, t_d = time.time()
+    while t_d - t_s < 15:
+        t_d = time.time()
+    return 0
 def on_message(client, userdata, message):
     global current_msg, household, start_flag
     current_msg = str(message.payload.decode("utf-8"))
@@ -295,7 +301,6 @@ def main():
             pass
         name = get_current_user()
         number = get_number()
-        print("Hello user: " + name)
         bus = initialize()
         measure(bus, name, number)
 
