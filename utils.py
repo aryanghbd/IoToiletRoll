@@ -257,6 +257,8 @@ def on_message(client, userdata, message):
                                   "Household Setup! You may now use the device.")
     else:
         print("error aryan!")
+        print(len(household))
+        print(len(current_msg.split()))
 mqtt_client = mqtt.Client()
 mqtt_client.connect("test.mosquitto.org", port=1883)
 mqtt_client.subscribe("IC.embedded/Useless_System")
