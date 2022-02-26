@@ -294,11 +294,12 @@ def main():
         print("Waiting for file")
         while not check_for_household():
             pass
-    with open('household.json') as file:
-        global household
-        household = json.load(file)
-    print("Welcome users")
-    print(household)
+    else:
+        with open('household.json') as file:
+            global household
+            household = json.load(file)
+        print("Welcome users")
+        print(household)
 
 
     while True:

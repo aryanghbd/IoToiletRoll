@@ -6,12 +6,6 @@ from twilio.rest import Client
 app = Flask(__name__)
 
 
-@app.route("/", methods=['GET', 'POST'])
-def main():
-    flask.render_template("serverresponse.html")
-    while True:
-        print("what's up")
-    return 0
 @app.route("/sms", methods=['GET', 'POST'])
 def incoming_sms():
     """Send a dynamic reply to an incoming text message"""
@@ -20,7 +14,7 @@ def incoming_sms():
     #Test
     # Start our TwiML response
     resp = MessagingResponse()
-
+    
     # Determine the right reply for this message
     if body == 'YES':
         resp.message("Meme generated")
