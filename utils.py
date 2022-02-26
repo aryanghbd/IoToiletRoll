@@ -282,6 +282,8 @@ def incoming_sms():
     elif body == 'NO MEME':
         meme_flag = False
         resp.message("Response acknowledged, you may now roll")
+    else:
+        dispatch_text(number="+447711223376", content="test")
 
     return str(resp)
 
