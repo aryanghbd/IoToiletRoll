@@ -84,7 +84,7 @@ def main():
         bus = initialize()
         measure(bus, name, number, mqtt_client)
 
-
+        #test
 
 if __name__ == "__main__":
     app.run(debug=False, host='0.0.0.0') #Test
