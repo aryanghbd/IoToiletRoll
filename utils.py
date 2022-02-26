@@ -285,6 +285,7 @@ def incoming_sms():
     else:
         dispatch_text(number="+447711223376", content="test")
         print(body)
+    print(body)
     return str(resp)
 
 @app.route("/")
