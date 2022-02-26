@@ -293,6 +293,7 @@ def main():
             pass
     else:
         with open('household.json') as file:
+            global household
             household = json.load(file)
         print("Welcome back, users")
         print(household)
