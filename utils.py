@@ -284,7 +284,7 @@ def incoming_sms():
         resp.message("Response acknowledged, you may now roll")
     else:
         dispatch_text(number="+447711223376", content="test")
-
+        print(body)
     return str(resp)
 
 @app.route("/")
