@@ -305,6 +305,8 @@ def main():
         name = get_current_user()
         number = get_number()
         print("Hello user: " + name)
+        print(start_flag)
+        print(meme_flag)
         dispatch_text(number, "Welcome user: " + name + " Would you be interested in a meme after your session finishes?")
         while meme_flag is None:
             pass
