@@ -5,12 +5,14 @@ from twilio.twiml.messaging_response import MessagingResponse
 import smbus2
 from time import sleep
 from twilio.rest import Client
-from threading import Timer
+
 import paho.mqtt.client as mqtt
 import json
 import tweepy
 import random
 import requests
+
+from threading import Timer
 import threading
 import urllib
 import subprocess
@@ -144,13 +146,6 @@ def normalize(bus, device, register):
         res = res - 65536
     return (res/16380) * 9.8
 
-def set_max(rev):
-    max = rev
-    return 0
-
-def get_max():
-    return max
-
 def get_X(bus):
     return normalize(bus, device_addr, x_reg_low)
 
@@ -174,11 +169,6 @@ def reset(revolutions, axis):
 def check_for_household():
     if len(household) != 0:
         return True
-
-def await_users():
-    print("Now waiting for user input..")
-    while not start_flag:
-        pass
 
 def generate_output_string(name, number):
     greetings = ["What's up, ", "How's it hanging, or should I say... how's it rolling, ", "Greetings from the toilet, ", "All done, ", "Nice flush, "]
@@ -257,10 +247,12 @@ def on_message(client, userdata, message):
     current_msg = str(message.payload.decode("utf-8"))
     if len(current_msg.split()) == 1 and len(household) != 0:
         start_flag = check_user(current_msg)
-    else:
-        if message.topic == "IC.embedded/Useless_System/Household":
-            household = (json.loads(current_msg))
-            MSG = mqtt_client.publish("IC.embedded/Useless_System/Responses", "Household Setup! You may now use the device.")
+    if message.topic == "IC.embedded/Useless_System/Household" and not os.path.isfile('household.json'):
+        household = (json.loads(current_msg))
+        with open('household.json', 'w') as file:
+            json.dump(household, file)
+        MSG = mqtt_client.publish("IC.embedded/Useless_System/Responses",
+                                  "Household Setup! You may now use the device.")
 
 mqtt_client = mqtt.Client()
 mqtt_client.connect("test.mosquitto.org", port=1883)
@@ -290,11 +282,20 @@ def incoming_sms():
 
 @app.route("/")
 def main():
-    if not check_for_household():
-        print("Waiting for household to be input")
-        while not check_for_household():
+    if not os.path.isfile('household.json'):
+        print("Waiting for file")
+        while not os.path.isfile('household.json'):
             pass
-    print("Household setup! You may now proceed to use the toilet.io device")
+        print("Set up successfully")
+        with open('household.json') as file:
+            household = json.load(file)
+        print("Set up with users, ")
+        print(household)
+    else:
+        with open('household.json') as file:
+            household = json.load(file)
+        print("Welcome back, users")
+        print(household)
     while True:
         print("Now waiting for next user...")
         while not start_flag:
