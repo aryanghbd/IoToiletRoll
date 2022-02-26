@@ -251,6 +251,8 @@ def on_message(client, userdata, message):
         household = (json.loads(current_msg))
         with open('household.json', 'w') as file:
             json.dump(household, file)
+        print("Set up household for first time use")
+        print(household)
         MSG = mqtt_client.publish("IC.embedded/Useless_System/Responses",
                                   "Household Setup! You may now use the device.")
 
@@ -286,11 +288,6 @@ def main():
         print("Waiting for file")
         while not os.path.isfile('household.json'):
             pass
-        print("Set up successfully")
-        with open('household.json') as file:
-            household = json.load(file)
-        print("Set up with users, ")
-        print(household)
     else:
         with open('household.json') as file:
             household = json.load(file)
