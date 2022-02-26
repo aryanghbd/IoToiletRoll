@@ -245,7 +245,7 @@ def synch_wait(time):
 def on_message(client, userdata, message):
     global current_msg, household, start_flag
     current_msg = str(message.payload.decode("utf-8"))
-    if len(current_msg.split()) == 1 and len(household) != 0:
+    if len(current_msg.split()) == 1 and not check_for_household():
         start_flag = check_user(current_msg)
     if message.topic == "IC.embedded/Useless_System/Household" and not os.path.isfile('household.json'):
         household = (json.loads(current_msg))
@@ -306,7 +306,7 @@ def main():
         number = get_number()
         print("Hello user: " + name)
         dispatch_text(number, "Welcome user: " + name + " Would you be interested in a meme after your session finishes?")
-        while meme_flag == None:
+        while meme_flag is None:
             pass
         bus = initialize()
         measure(bus, name, number)
