@@ -184,6 +184,8 @@ def genetate_custom_string(number):
         return " Are you flushing down a textbook? At " + str(number * 0.12) + "m, you rolled a small child or a baseball bat, do better."
     if 26 < number < 40:
         return " God damn."
+    else:
+        return " Roll with awareness!"
 def dispatch_text(number, content):
     message = client.messages \
         .create(
