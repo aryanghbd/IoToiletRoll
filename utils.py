@@ -289,14 +289,15 @@ def incoming_sms():
 def main():
     if not os.path.isfile('household.json'):
         print("Waiting for file")
-        while not os.path.isfile('household.json'):
+        while not check_for_household():
             pass
-    else:
-        with open('household.json') as file:
-            global household
-            household = json.load(file)
-        print("Welcome back, users")
-        print(household)
+    with open('household.json') as file:
+        global household
+        household = json.load(file)
+    print("Welcome users")
+    print(household)
+
+
     while True:
         print("Now waiting for next user...")
         while not start_flag:
