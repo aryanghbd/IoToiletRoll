@@ -1,29 +1,4 @@
-import os
-import time
-from flask import Flask, request, redirect
-from twilio.twiml.messaging_response import MessagingResponse
-import smbus2
-from time import sleep
-from twilio.rest import Client
-
-import paho.mqtt.client as mqtt
-import json
-import tweepy
-import random
-import requests
-
-from threading import Timer
-import threading
-import urllib
-import subprocess
-
-from sms import *
-from mqtt import *
-from meme_utils import *
 from utils import *
-
-
-app = Flask(__name__)
 
 mqtt_client = mqtt.Client()
 mqtt_client.connect("test.mosquitto.org", port=1883)
@@ -82,7 +57,7 @@ def main():
         while meme_flag is None:
             pass
         bus = initialize()
-        measure(bus, name, number, mqtt_client)
+        measure(bus, name, number)
 
 
 
