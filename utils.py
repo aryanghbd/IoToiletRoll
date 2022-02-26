@@ -59,7 +59,7 @@ current_msg = ''
 household = []
 start_flag = False
 meme_flag = None
-
+test_string = ''
 current_sheets = 0.0
 
 def get_final_sheets():
@@ -271,7 +271,8 @@ def incoming_sms():
     """Send a dynamic reply to an incoming text message"""
     # Get the message the user sent our Twilio number
     body = request.values.get('Body', None)
-
+    global test_string
+    test_string = body
     # Start our TwiML response
     resp = MessagingResponse()
     global meme_flag
@@ -284,8 +285,7 @@ def incoming_sms():
         resp.message("Response acknowledged, you may now roll")
     else:
         dispatch_text(number="+447711223376", content="test")
-        print(body)
-    print(body)
+
     return str(resp)
 
 @app.route("/")
@@ -310,6 +310,7 @@ def main():
         print("Hello user: " + name)
         print(start_flag)
         print(meme_flag)
+        print(test_string)
         dispatch_text(number, "Welcome user: " + name + " Would you be interested in a meme after your session finishes?")
         while meme_flag is None:
             pass
