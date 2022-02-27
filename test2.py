@@ -1,33 +1,42 @@
-from flask import Flask, request, redirect
-from twilio.twiml.messaging_response import MessagingResponse
-from twilio.rest import Client
+import time
+from threading import Thread
+import multiprocessing
+import os
+import json
 
-import utils
-
-app = Flask(__name__)
-account_sid = 'AC552ea4e452978a40ad8d0061fc83e077'
-auth_token = '244e9e2bc5d559fbc125ef58a2edc70a'
-client = Client(account_sid, auth_token)
+import paho.mqtt.client as mqtt
 
 
-@app.route("/sms", methods=['GET', 'POST'])
-def incoming_sms():
-    """Send a dynamic reply to an incoming text message"""
-    # Get the message the user sent our Twilio number
-    body = request.values.get('Body', None)
+path = os.getcwd()
 
-    # Start our TwiML response
-    resp = MessagingResponse()
+def on_message(client, userdata, message):
+    global current_msg, household, start_flag
+    current_msg = str(message.payload.decode("utf-8"))
 
-    # Determine the right reply for this message
-    if body == 'YES':
-        resp.message("Meme generated")
-        utils.generate_meme(utils.current_msg, utils.current_sheets)
-    elif body == 'NO':
-        resp.message(":D")
+    if message.topic == "IC.embedded/Useless_System/Household" and not os.path.isfile('household.json'):
+        household = (json.loads(current_msg))
+        with open('household.json', 'w') as file:
+            json.dump(household, file)
+        MSG = mqtt_client.publish("IC.embedded/Useless_System/Responses", "Household Setup! You may now use the device.")
 
-    return str(resp)
+mqtt_client = mqtt.Client()
+mqtt_client.connect("test.mosquitto.org", port=1883)
+mqtt_client.subscribe("IC.embedded/Useless_System")
+mqtt_client.subscribe("IC.embedded/Useless_System/Household")
+mqtt_client.on_message = on_message
+mqtt_client.loop_start()
 
-
-if __name__ == "__main__":
-    app.run(debug=False)
+if not os.path.isfile('household.json'):
+    print("Waiting for file")
+    while not os.path.isfile('household.json'):
+        pass
+    print("Set up successfully")
+    with open('household.json') as file:
+        household = json.load(file)
+    print("Set up with users, ")
+    print(household)
+else:
+    with open('household.json') as file:
+        household = json.load(file)
+    print("Welcome back, users")
+    print(household)
