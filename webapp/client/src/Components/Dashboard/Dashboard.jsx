@@ -24,9 +24,9 @@ class Dashboard extends Component {
                 <h1>
                   Hi <b>{user.name.split(' ')[0]} </b>
                 </h1>
-                {/* <Link className="btn btn-lg btn-warning mt-5" to={"/household"}>
-                  Edit Household
-                </Link> */}
+                <Link className="btn btn-lg btn-warning mt-5" to={"/household"}>
+                  Set Household
+                </Link>
                 <Link className="btn btn-lg btn-warning mt-5" to={"/leaderboard"}>
                   Leaderboard
                 </Link>

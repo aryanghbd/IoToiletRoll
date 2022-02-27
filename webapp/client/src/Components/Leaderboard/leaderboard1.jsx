@@ -47,9 +47,9 @@ class Leaderboard1 extends Component {
      * @param {Object, Object} user
   */
   compareScore(a,b) {
-    if (a.score < b.score)
+    if (a.sheets < b.sheets)
       return -1;
-    if (a.score > b.score)
+    if (a.sheets > b.sheets)
       return 1;
     return 0;
   }
@@ -182,14 +182,14 @@ class Leaderboard1 extends Component {
             <tr>
               <td className='rank-header sortScore' onClick={ this.sortUsersByScore }> Rank </td>
               <td className='rank-header sortAlpha' onClick={ this.sortUsersByName }> Name </td>
-              <td className='rank-header' onClick={ this.sortUsersByScore }> Score </td>
+              <td className='rank-header' onClick={ this.sortUsersByScore }> Sheets </td>
             </tr>
             {
             this.state.ranking.map((user, index) =>
                <tr className='ranking' key={index}>
                 { user.page == this.state.page ? <td className='data'>{ user.rank }</td> : null }
                 { user.page == this.state.page ? <td className='data'>{ user.name }</td> : null }
-                { user.page == this.state.page ? <td className='data'>{ user.score }</td> : null }
+                { user.page == this.state.page ? <td className='data'>{ user.sheets }</td> : null }
                </tr>
              )
            }

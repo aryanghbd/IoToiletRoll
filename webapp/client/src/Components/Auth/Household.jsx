@@ -1,31 +1,8 @@
 import React from "react";
 import './styles.css';
-import { Link } from 'react-router-dom';
-
-var mqtt = require('mqtt')
-
-var mqtt = require('mqtt')
-var client = mqtt.connect('mqtt://test.mosquitto.org:8080', { clientId: "clientId-p932yNuIfk" })
-console.log("connected flag  " + client.connected);
-
-client.on("connect", function () {
-  console.log("connected  " + client.connected);
-})
-
-//handle errors
-client.on("error", function (error) {
-  console.log("Can't connect" + error);
-  process.exit(1)
-});
-
-//publish
-function publish(message, callback) {
-  console.log("publishing topic: instruction", " message: ", message);
-
-  if (client.connected == true) {
-    client.publish('household', message, callback);
-  }
-}
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { publishHousehold } from "../../redux/actions/mqttActions"
 
 class Household extends React.Component {
   constructor(props) {
@@ -57,10 +34,8 @@ class Household extends React.Component {
   handleSubmit(event) {
     event.preventDefault();
     var json = JSON.stringify(this.state.formValues);
-    // alert(json);
-    publish(json, (err, packet) => {
-      this.props.history.push("/dashboard")
-    });
+    this.props.publishHousehold(json)
+    this.props.history.push("/dashboard")
   }
 
   render() {
@@ -90,4 +65,10 @@ class Household extends React.Component {
   }
 }
 
-export default Household;
+Household.propTypes = {
+  publishHousehold: PropTypes.func.isRequired,
+};
+
+const mapStateToProps = state => ({});
+
+export default connect(mapStateToProps, { publishHousehold })(Household);
