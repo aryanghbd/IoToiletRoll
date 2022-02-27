@@ -1,10 +1,17 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import './Home.css';
-import { FaNodeJs, FaReact, FaGithub } from 'react-icons/fa';
-import { DiMongodb } from 'react-icons/di';
 
 class Home extends Component {
+  componentDidMount() {
+    // If logged in and user navigates to Login page, should redirect them to dashboard
+    if (this.props.auth.isAuthenticated) {
+      this.props.history.push('/dashboard');
+    }
+  }
+
   render() {
     return (
       <section id="banner" className="banner">
@@ -34,9 +41,6 @@ class Home extends Component {
             <div className="col-lg-6">
               <div className="banner-right">
                 <h1 className="text-capitalize">
-         
-
-       
                 </h1>
               </div>
             </div>
@@ -47,4 +51,12 @@ class Home extends Component {
   }
 }
 
-export default Home;
+Home.propTypes = {
+  auth: PropTypes.object.isRequired
+};
+
+const mapStateToProps = state => ({
+  auth: state.auth
+});
+
+export default connect(mapStateToProps, {})(Home);
