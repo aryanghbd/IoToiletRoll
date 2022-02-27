@@ -115,7 +115,7 @@ class Login extends Component {
                   <div className="form-row">
                     <div className="form-group col-md-12">
                       <p>
-                        Don't have an account ?
+                        Don't have an account?&nbsp;
                         <Link to="/register" className="text-success">
                           Create one
                         </Link>

@@ -32,15 +32,13 @@ class Leaderboard extends Component {
     super(props)
     this.state = {
       users: props.leaderboard,
-      paginate: 100
+      paginate: 10
     };
   }
   render() {
     return (
       <div>
-        <h1 className="text-capitalize">
-          hello </h1>
-        <div>
+        <div style={{marginTop: 56}} className="container">
           <Leaderboard1 users={this.state.users} paginate={this.state.paginate} />
         </div>
       </div>
