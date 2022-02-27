@@ -1,4 +1,0 @@
-{
-    "mongoURI": "mongodb+srv://toilet:toilet@cluster0.tgoea.mongodb.net/webapp?retryWrites=true&w=majority",
-    "secretOrKey": "secret"
-}
