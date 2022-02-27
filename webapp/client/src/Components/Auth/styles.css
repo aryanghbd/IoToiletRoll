@@ -1,0 +1,46 @@
+body {font-family: Arial, Helvetica, sans-serif;}
+* {box-sizing: border-box;}
+
+  .form-inline {  
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .form-inline label {
+    margin: 5px 10px 5px 10px;
+  }
+
+  .form-inline input {
+    vertical-align: middle;
+    margin: 5px 10px 5px 10px;
+    padding: 10px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+  }
+
+  .button-section {
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 2%;
+  }
+  .button {
+    padding: 10px 20px;
+    background-color: rgb(233, 159, 0);
+    border: 1px solid #ddd;
+    color: rgb(0, 0, 0);
+    cursor: pointer;
+  }
+
+  .button:hover {
+    background-color: rgb(201, 159, 23);
+  }
+
+  .remove {
+    background-color: rgb(192, 53, 53);
+  }
+  .remove:hover {
+    background-color: rgb(187, 43, 43);
+  }
