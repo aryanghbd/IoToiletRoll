@@ -3,7 +3,7 @@ import store from '../store';
 
 var mqtt = require('mqtt')
 
-var client = mqtt.connect('mqtt://test.mosquitto.org:8080', { clientId: "clientId-p932yNuIfk" })
+var client = mqtt.connect('mqtt://test.mosquitto.org:8080')
 
 // handle connect
 client.on("connect", function () {
@@ -14,7 +14,7 @@ client.on("connect", function () {
 
 // handle messages
 client.on("message", function(topic, payload) {
-  let json = payload.toJSON()
+  let json = payload.toString()
   let updateValue = JSON.parse(json)
   store.dispatch(updateLeaderboard(updateValue))
 })
@@ -37,7 +37,7 @@ export const publishHousehold = (household, callback) => dispatch => {
   console.log("publishing topic: household", " message: ", household);
 
   if (client.connected == true) {
-    client.publish('household')
+    client.publish('household', household)
   }
 
   let initialLeaderboard = JSON.parse(household).map((val) => ({name: val.name, sheets: 0}))

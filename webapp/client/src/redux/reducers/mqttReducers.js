@@ -1,13 +1,7 @@
 import { UPDATE_LEADERBOARD, SET_LEADERBOARD } from '../actions/types';
 const initialState = {
   leaderboard: [
-    { name: "alnvjsdnvjlslvsj d", sheets: 1 },
-    { name: "b", sheets: 2 },
-    { name: "c", sheets: 3 },
-    { name: "d", sheets: 4 },
-    { name: "e", sheets: 5 },
-    { name: "f", sheets: 6 },
-    { name: "g", sheets: 7 }
+    { name: "", sheets: 0 }
   ]
 };
 
@@ -22,7 +16,7 @@ export default function (state = initialState, action) {
       return {
         ...state,
         leaderboard: state.leaderboard.map(
-          (val) => val.name == action.payload.name ? action.payload : val
+          (val) => val.name == action.payload.name ? val.sheets=action.payload.sheets : val
         )
       };
     default:

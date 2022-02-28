@@ -5,7 +5,7 @@ import Leaderboard1 from './leaderboard1.jsx';
 
 var mqtt = require('mqtt')
 
-var client = mqtt.connect('mqtt://test.mosquitto.org:8080', { clientId: "clientId-p932yNuIfk" })
+var client = mqtt.connect('mqtt://test.mosquitto.org:8080')
 console.log("connected flag  " + client.connected);
 
 client.on("connect", function () {
