@@ -3,29 +3,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Leaderboard1 from './leaderboard1.jsx';
 
-var mqtt = require('mqtt')
-
-var client = mqtt.connect('mqtt://test.mosquitto.org:8080')
-console.log("connected flag  " + client.connected);
-
-client.on("connect", function () {
-  console.log("connected  " + client.connected);
-})
-
-//handle errors
-client.on("error", function (error) {
-  console.log("Can't connect" + error);
-  process.exit(1)
-});
-
-//publish
-function subscribe(message, callback) {
-  console.log("subscibing to topic: score");
-
-  if (client.connected == true) {
-    client.subscribe("score")
-  }
-}
 
 class Leaderboard extends Component {
   constructor(props) {

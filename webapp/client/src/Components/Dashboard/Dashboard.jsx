@@ -30,6 +30,9 @@ class Dashboard extends Component {
                 <Link className="btn btn-lg btn-warning mt-5" to={"/leaderboard"}>
                   Leaderboard
                 </Link>
+                <Link className="btn btn-lg btn-warning mt-5" to={"/rolling"}>
+                  Start rolling?
+                </Link>
                 <Link className="btn btn-lg btn-warning mt-5" onClick={this.onLogoutClick}>
                   Logout
                 </Link>
