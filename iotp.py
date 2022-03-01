@@ -209,11 +209,11 @@ def main():
         while not check_for_household():
             pass
     else:
+        if not os.path.isfile('rolls.txt'):
+            pass
         with open('household.json') as file:
             global household, rolls
             household = json.load(file)
-            while not roll_flag:
-                pass
             with open('rolls.txt') as rolls:
                 rolls = int(rolls.readline())
         print("Welcome users")
