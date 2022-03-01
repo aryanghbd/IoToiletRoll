@@ -57,6 +57,25 @@ current_sheets = 0.0
 rolls = 0.0
 #Gathers other values for state
 
+def get_last_user():
+    return last_user
+
+def check_meme_flag():
+    return meme_flag
+
+def check_roll_flag():
+    return roll_flag
+
+def check_start_flag():
+    return start_flag
+
+def decrement_sheets(x):
+    global rolls
+    rolls = rolls - x
+    return 0
+
+def get_sheets():
+    return rolls
 
 #The following function encapsulates Twilio SMS sending in a more organised functional style.
 def dispatch_text(number, content):
@@ -120,7 +139,8 @@ def measure(bus, name, number):
     dispatch_text(number, "You may now begin rolling.")
     #There is a bit of a latency gap here between sending the HTTP POST and starting, but it is
     #timed well enough.
-    global rolls, last_user
+    global rolls
+    last_user = get_last_user()
     while True:
         axis = None
         revolutions = 0
@@ -270,7 +290,7 @@ mqtt_client.loop_start()
 
 @app.route("/")
 def main():
-    global last_user, roll_flag
+    #global last_user, roll_flag
     #I would like to convert all of these into getters and setters to avoid global usage.
     if not os.path.isfile('household.json'):
         #If the local file for household hasn't been generated, put it into await state.
@@ -290,13 +310,13 @@ def main():
     while True:
         print("Now waiting for next user...")
         if rolls < 10:
-            if last_user is not '':
+            if get_last_user() is not '':
                 dispatch_text(household[0]['number'], "You're running low on toilet paper, the last user was: " + last_user)
             else:
                 dispatch_text(household[0]['number'], "You're running low on toilet paper")
         if rolls == 0:
             #Halt state until refilled.
-            if last_user is not '':
+            if get_last_user() is not '':
                 dispatch_text(household[0]['number'],
                           "You have run out of toilet paper, please replace your roll. The last user was: " + last_user)
             else:
@@ -304,7 +324,7 @@ def main():
             while rolls == 0:
                 pass
 
-        while not start_flag:
+        while not check_start_flag():
             #Wait until a user messages their name via MQTT to start.
             pass
         name = get_current_user()
@@ -314,7 +334,7 @@ def main():
         print(meme_flag)
         print(test_string)
         dispatch_text(number, "Welcome user: " + name + " Would you be interested in a meme after your session finishes?")
-        while meme_flag is None:
+        while check_meme_flag() is None:
             pass
         bus = accel_i2c.initialize()
         measure(bus, name, number)
