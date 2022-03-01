@@ -203,7 +203,7 @@ mqtt_client.loop_start()
 
 @app.route("/")
 def main():
-    global last_user
+    global last_user, rolls_flag
     if not os.path.isfile('household.json'):
         print("Waiting for file")
         while not check_for_household():
@@ -212,6 +212,8 @@ def main():
         with open('household.json') as file:
             global household, rolls
             household = json.load(file)
+            while rolls_flag is False:
+                pass
             with open('rolls.txt') as rolls:
                 rolls = int(rolls.readline())
         print("Welcome users")
