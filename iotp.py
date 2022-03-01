@@ -137,6 +137,8 @@ def check_for_household():
 #I will comment to explain relevant lines.
 def measure(bus, name, number):
     dispatch_text(number, "You may now begin rolling.")
+    MSG = mqtt_client.publish("IC.embedded/Useless_System/Responses",
+                              f"${name} is now using the device")
     #There is a bit of a latency gap here between sending the HTTP POST and starting, but it is
     #timed well enough.
     global rolls
