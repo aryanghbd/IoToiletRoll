@@ -1,10 +1,7 @@
 import smbus2
 from time import sleep
 
-import sms
-from meme import generate_meme_text, generate_meme
-import time
-from string_utils import *
+
 
 device_addr = 0x18
 
@@ -36,7 +33,8 @@ def normalize(bus, device, register):
     if res > 32768:
         res = res - 65536
     return (res/16380) * 9.8
-
+    #The above function gathers information from the registers, and the adjacent one, and
+    #converts it into readable format based on the documentation format.
 def get_X(bus):
     return normalize(bus, device_addr, x_reg_low)
 
