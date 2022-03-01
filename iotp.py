@@ -187,14 +187,13 @@ def incoming_sms():
         meme_flag = False
         resp.message("Response acknowledged, you may now roll")
     elif body.split()[0] == "ROLLS":
-
-        rolls = int(body.split()[1])
+        rolls = float(body.split()[1])
         with open('rolls.txt', 'w') as file:
             file.write(str(rolls))
         roll_flag = True
         resp.message("Set up IoTP with roll containing " + str(rolls) + " sheets.")
     elif body.split()[0] == "REFILL":
-        rolls = int(body.split()[1])
+        rolls = float(body.split()[1])
         resp.message("IoTP refilled with " + str(rolls) + " sheets.")
     return str(resp)
 
@@ -213,7 +212,7 @@ def main():
             global household, rolls
             household = json.load(file)
             with open('rolls.txt') as rolls:
-                rolls = int(rolls.readline())
+                rolls = float(rolls.readline())
         print("Welcome users")
         print(household)
 
