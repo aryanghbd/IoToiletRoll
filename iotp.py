@@ -1,3 +1,4 @@
+import base64
 import os
 import time
 from flask import Flask, request, redirect
@@ -17,24 +18,25 @@ from threading import Timer
 import threading
 import urllib
 import subprocess
+import settings
 
 app = Flask(__name__)
 
 #Pass in Twitter Client: Will encrypt these details tonight
-username = 'toilet.io'
-password = 'Toilettime'
+username = settings.get_imgflip_username()
+password = settings.get_imgflip_password()
 userAgent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) \
     AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.117 \
     Safari/537.36'
 #Will also encrypt the following infromation, ideally store them in a credentials document externally
-tweetclient = tweepy.Client(consumer_key='NJR2pGSoieZyRk9jTPC4ypO9Z',
-                       consumer_secret='L2GeDyGGzL0hezXQQJ5sF86g3nIlD7jg5DscebiSWgtd5ayC2N',
-                       access_token='1496564796950519808-CNGNNX1gkZPSpqANxDUL73nFcrPkQM',
-                       access_token_secret='vYFMKnfHdCFOGh8buoVtoNJ3Yw6oL9kOk7Gl09wThqiYa')
+tweetclient = tweepy.Client(consumer_key=base64.b64decode(settings.get_twitter_consumerkey()).decode("utf-8"),
+                       consumer_secret=base64.b64decode(settings.get_twitter_consumersecret()).decode("utf-8"),
+                       access_token=base64.b64decode(settings.get_twitter_accesstoken()).decode("utf-8"),
+                       access_token_secret=base64.b64decode(settings.get_twitter_accesstokensecret()).decode("utf-8"))
 
 #These are Twilio Client tokens
-account_sid = 'AC552ea4e452978a40ad8d0061fc83e077'
-auth_token = '244e9e2bc5d559fbc125ef58a2edc70a'
+#account_sid = 'AC552ea4e452978a40ad8d0061fc83e077'
+#auth_token = '244e9e2bc5d559fbc125ef58a2edc70a'
 
 #And here is the MQTT client side tokens.
 mqtt_client = mqtt.Client()
@@ -44,7 +46,7 @@ mqtt_client.subscribe("IC.embedded/Useless_System/Household")
 
 
 #Establish a Twilio Client for SMS functionality
-client = Client(account_sid, auth_token)
+client = Client(base64.b64decode(settings.get_twilio_accountsid()).decode("utf-8"), base64.b64decode(settings.get_twilio_authtoken()).decode("utf-8"))
 
 #These global structures are used in order to manage and pass transmitted info within program context
 current_msg = '' #Most recent MQTT message
@@ -82,7 +84,7 @@ def dispatch_text(number, content):
     message = client.messages \
         .create(
         body=content,
-        from_='+447897016821',
+        from_=settings.get_twilio_phonenumber(),
         to=number
     )
     return 0
@@ -221,7 +223,7 @@ def measure(bus, name, number):
                 #JSON format to dispatch through MQTT - Encrypt this later.
                 #State from prior is checked, if the user SMS'd "MEME", generate a meme.
                 if meme_flag:
-                    generate_meme(name, sheets, tweetclient, username, password)
+                    generate_meme(name, sheets, tweetclient, username, base64.b64decode(password).decode("utf-8"))
                     dispatch_text(number, "A meme has been generated for you on @toiletdotio, thanks for using!")
                 MSG_INFO = mqtt_client.publish("IC.embedded/Useless_System/Data", json.dumps(userdata))
                 last_user = get_current_user()
