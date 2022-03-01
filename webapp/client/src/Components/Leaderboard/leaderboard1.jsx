@@ -20,7 +20,7 @@ class Leaderboard1 extends Component {
     this.state = {
       users: this.props.users,
       ranking: [],
-      asc: true,
+      asc: false,
       alph: false,
       page: 1,
       pageMax: 1,

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { DropDown } from 'dynamic-dropdown'
 import 'dynamic-dropdown/dist/index.css'
 import { connect } from 'react-redux';
+import './Rolling.css';
 
 var mqtt = require('mqtt')
 
@@ -75,12 +76,14 @@ render(){
     <form onSubmit={this.handleSubmit}>
     <div className="container" style={{ marginTop: 100 }}>
 
-    <select onChange={this.onChangeForm}>
+    <select name="users" id="users" onChange={this.onChangeForm}>
     {options}
     </select>
+    <div>
     <button style={{marginRight: 100}} type="submit" className="btn btn-md btn-register">
     Submit
     </button>
+    </div>
     </div>
     </form>
   )
