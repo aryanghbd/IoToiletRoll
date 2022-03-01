@@ -1,7 +1,10 @@
-from utils import *
-from sms import *
-from meme_utils import *
-from mqtt import *
+import smbus2
+from time import sleep
+
+import sms
+from meme import generate_meme_text, generate_meme
+import time
+from string_utils import *
 
 device_addr = 0x18
 
@@ -42,47 +45,3 @@ def get_Y(bus):
 
 def get_Z(bus):
     return normalize(bus, device_addr, z_reg_low)
-
-def measure(bus, name, number, client):
-    dispatch_text(number, "You may now begin rolling.")
-    while True:
-        #lastZ = None
-        axis = None
-        revolutions = 0
-        #current_max = get_max()
-        t_s = time.time()
-        while True:
-            X = get_X(bus)
-            Y = get_Y(bus)
-            Z = get_Z(bus)
-            if Z < -7.5 and axis == None:
-                axis = Z
-            if Z > 8 and axis != None:
-                revolutions = revolutions + 1
-                print("Rolled! Number of revolutions: " + str(revolutions))
-                print("You have now used: " + str(revolutions * 1.5) + " sheets of toilet paper.")
-                axis = None
-                t_s = time.time()
-            #Check if user has not moved for some time.
-            t_n = time.time()
-            print(t_n - t_s)
-            print("Z: " + str(Z))
-            print("Axis: " + str(axis))
-            print("Revolutions: " + str(revolutions))
-            print(name)
-            print(number)
-            print(revolutions * 1.5)
-            if(t_n - t_s > 15):
-                sheets = revolutions * 1.5
-                custom_str = genetate_custom_string(sheets)
-                outstr = generate_output_string(name, sheets)
-                body = outstr + custom_str
-                dispatch_text(number, body)
-                userdata = {"name":name, "sheets":sheets}
-                if meme_flag:
-                    generate_meme(name, sheets)
-                    dispatch_text(number, "A meme has been generated for you on @toiletdotio, thanks for using!")
-                MSG_INFO = client.publish("IC.embedded/Useless_System/Data", json.dumps(userdata))
-                revolutions, axis = reset(revolutions, axis)
-                return 0
-            sleep(0.01)
