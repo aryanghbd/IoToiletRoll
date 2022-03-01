@@ -53,7 +53,7 @@ class Login extends Component {
             <div className="col-lg-6">
               <div className="login-left">
                 <h4 className="text-capitalize">
-                  Login with your credentials to enjoy the Application services
+                  Login to see your household TP usage!
                 </h4>
               </div>
             </div>

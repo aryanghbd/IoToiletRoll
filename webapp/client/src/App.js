@@ -15,6 +15,7 @@ import { setCurrentUser, logoutUser } from './redux/actions/authActions';
 import PrivateRoute from './Components/private-route/PrivateRoute';
 import Dashboard from './Components/Dashboard/Dashboard';
 import Leaderboard from './Components/Leaderboard/leaderboard';
+import Rolling from './Components/Rolling/Rolling';
 
 function App() {
   // Check for token to keep user logged in
@@ -45,6 +46,7 @@ function App() {
             <PrivateRoute exact path="/dashboard" component={Dashboard} />
             <PrivateRoute exact path="/leaderboard" component={Leaderboard} />
             <PrivateRoute exact path="/household" component={Household} />
+            <PrivateRoute exact path="/rolling" component={Rolling} />
             <Route path="*" component={NotFound} />
           </Switch>
           <Route path="*" component={NotFound} />

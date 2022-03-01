@@ -1,4 +1,4 @@
-import { UPDATE_LEADERBOARD, SET_LEADERBOARD } from './types'; // Register User
+import { UPDATE_LEADERBOARD, SET_LEADERBOARD, SET_USERS } from './types'; // Register User
 import store from '../store';
 
 var mqtt = require('mqtt')
@@ -32,6 +32,16 @@ export const updateLeaderboard = (updateValue) => dispatch => {
   })
 }
 
+function renameKey ( obj, oldKey, newKey ) {
+  obj[newKey] = obj[oldKey];
+  delete obj[oldKey];
+}
+
+function changeVal(obj, key1, key2){
+  let val = obj[key1]
+  obj[key2] = val
+}
+
 
 export const publishHousehold = (household, callback) => dispatch => {
   console.log("publishing topic: household", " message: ", household);
@@ -41,10 +51,19 @@ export const publishHousehold = (household, callback) => dispatch => {
   }
 
   let initialLeaderboard = JSON.parse(household).map((val) => ({name: val.name, sheets: 0}))
+  let initialUsers = JSON.parse(household)
+  initialUsers.forEach( x => renameKey( x, 'name', 'value' ) );
+  initialUsers.forEach( x => changeVal( x, 'value', 'number'))
+  initialUsers.forEach( x => renameKey( x, 'number', 'label' ) );
 
-
+    console.log(initialUsers)
   dispatch({
     type: SET_LEADERBOARD,
     payload: initialLeaderboard
+  })
+
+  dispatch({
+    type: SET_USERS,
+    payload: initialUsers
   })
 }
