@@ -183,10 +183,11 @@ def incoming_sms():
         meme_flag = False
         resp.message("Response acknowledged, you may now roll")
     elif body.split()[0] == "ROLLS":
-        global rolls
+        global rolls, roll_flag
         rolls = int(body.split()[1])
         with open('rolls.txt', 'w') as file:
             file.write(str(rolls))
+        roll_flag = True
         resp.message("Set up IoTP with roll containing " + str(rolls) + " sheets.")
     return str(resp)
 
