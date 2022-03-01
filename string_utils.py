@@ -1,4 +1,7 @@
 import random
+#String utils for SMS strings
+#Simply generate custom SMS boiler plate strings based on use and random selection, using clauses.
+
 def generate_output_string(name, number):
     greetings = ["What's up, ", "How's it hanging, or should I say... how's it rolling, ", "Greetings from the toilet, ", "All done, ", "Nice flush, "]
     greeting = random.choice(greetings)
