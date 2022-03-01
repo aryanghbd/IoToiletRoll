@@ -2,7 +2,7 @@ import { SET_USERS } from '../actions/types';
 
 const initialState = {
   rolling: [
-    { value: '', label: '------- Select -------' }
+    { name: '------- Select HouseHold Member -------' }
   ]
 };
 

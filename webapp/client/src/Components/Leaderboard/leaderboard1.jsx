@@ -48,9 +48,9 @@ class Leaderboard1 extends Component {
   */
   compareScore(a, b) {
     if (a.sheets < b.sheets)
-      return -1;
-    if (a.sheets > b.sheets)
       return 1;
+    if (a.sheets > b.sheets)
+      return -1;
     return 0;
   }
 
@@ -112,6 +112,7 @@ class Leaderboard1 extends Component {
      * @param {String} search input
   */
   filterRank(e) {
+
     const ranking = this.state.users;
     const paginate = this.props.paginate;
     const newRanking = [];

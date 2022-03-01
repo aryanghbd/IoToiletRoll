@@ -66,8 +66,8 @@ render(){
    {
        let options = this.state.users.map((x)=>{
            return(
-               <option>
-                   {x.label}
+               <option key={x.name}>
+                   {x.name}
                </option>
            )
        })
@@ -76,7 +76,7 @@ render(){
     <form onSubmit={this.handleSubmit}>
     <div className="container" style={{ marginTop: 100 }}>
 
-    <select name="users" id="users" onChange={this.onChangeForm}>
+    <select name="users" id="users" onChange={this.onChangeForm} >
     {options}
     </select>
     <div>
