@@ -89,7 +89,7 @@ def check_for_household():
         return True
 
 def measure(bus, name, number):
-    sms.dispatch_text(number, "You may now begin rolling.")
+    sms.dispatch_text(number, "You may now begin rolling.", client)
     while True:
         #lastZ = None
         axis = None
