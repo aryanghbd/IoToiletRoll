@@ -113,6 +113,10 @@ def measure(bus, name, number):
             X = accel_i2c.get_X(bus)
             Y = accel_i2c.get_Y(bus)
             Z = accel_i2c.get_Z(bus)
+            if rolls == 0:
+                dispatch_text(number, "You have run out of toilet paper, please replace before continuing")
+                while rolls == 0:
+                    pass
             if Z < -7.5 and axis == None:
                 axis = Z
             if Z > 8 and axis != None:
@@ -131,6 +135,7 @@ def measure(bus, name, number):
             print(name)
             print(number)
             print(revolutions * 1.5)
+
             if(t_n - t_s > 15):
                 sheets = revolutions * 1.5
                 custom_str = string_utils.generate_custom_string(sheets)
