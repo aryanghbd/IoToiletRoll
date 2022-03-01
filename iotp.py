@@ -2,7 +2,6 @@ import os
 import time
 from flask import Flask, request, redirect
 from twilio.twiml.messaging_response import MessagingResponse
-import smbus2
 from time import sleep
 from twilio.rest import Client
 
@@ -51,8 +50,10 @@ current_msg = ''
 household = []
 start_flag = False
 meme_flag = None
+roll_flag = False
 test_string = ''
 current_sheets = 0.0
+rolls = 0.0
 
 def get_final_sheets():
     return current_sheets
@@ -142,7 +143,11 @@ def on_message(client, userdata, message):
         household = (json.loads(current_msg))
         with open('household.json', 'w') as file:
             json.dump(household, file)
+        sms.dispatch_text(household[0]['number'], "How many rolls do you have on first time setup?", client)
+        while roll_flag == False:
+            pass
         print("Set up household for first time use")
+
         print(household)
         MSG = mqtt_client.publish("IC.embedded/Useless_System/Responses",
                                   "Household Setup! You may now use the device.")
@@ -169,6 +174,12 @@ def incoming_sms():
     elif body == 'NO MEME':
         meme_flag = False
         resp.message("Response acknowledged, you may now roll")
+    elif body.split()[0] == "ROLLS":
+        global rolls
+        rolls = int(body.split()[1])
+        with open('rolls.txt', 'w') as file:
+            file.write(str(rolls))
+        resp.message("Set up IoTP with roll containing " + str(rolls) + " sheets.")
     return str(resp)
 
 mqtt_client.on_message = on_message
@@ -182,8 +193,10 @@ def main():
             pass
     else:
         with open('household.json') as file:
-            global household
+            global household, rolls
             household = json.load(file)
+            with open('rolls.txt') as rolls:
+                rolls = int(rolls.readline())
         print("Welcome users")
         print(household)
 
