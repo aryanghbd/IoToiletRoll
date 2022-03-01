@@ -219,11 +219,16 @@ def main():
     while True:
         print("Now waiting for next user...")
         if rolls < 10:
-            dispatch_text(household[0]['number'], "You're running low on toilet paper, the last user was: " + last_user)
-
+            if last_user is not '':
+                dispatch_text(household[0]['number'], "You're running low on toilet paper, the last user was: " + last_user)
+            else:
+                dispatch_text(household[0]['number'], "You're running low on toilet paper")
         if rolls == 0:
-            dispatch_text(household[0]['number'],
+            if last_user is not '':
+                dispatch_text(household[0]['number'],
                           "You have run out of toilet paper, please replace your roll. The last user was: " + last_user)
+            else:
+                dispatch_text(household[0]['number'], "You have run out of toilet paper, please replace your roll.")
             while rolls == 0:
                 pass
 
