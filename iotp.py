@@ -158,8 +158,6 @@ def on_message(client, userdata, message):
         with open('household.json', 'w') as file:
             json.dump(household, file)
         dispatch_text(household[0]['number'], "How many rolls do you have on first time setup?")
-        while not roll_flag:
-            pass
         print("Set up household for first time use")
         print(household)
         MSG = mqtt_client.publish("IC.embedded/Useless_System/Responses",
