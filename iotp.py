@@ -206,11 +206,9 @@ def main():
     global last_user, roll_flag
     if not os.path.isfile('household.json'):
         print("Waiting for file")
-        while not check_for_household():
+        while not check_for_household() or not os.path.isfile('rolls.txt'):
             pass
     else:
-        if not os.path.isfile('rolls.txt'):
-            pass
         with open('household.json') as file:
             global household, rolls
             household = json.load(file)
