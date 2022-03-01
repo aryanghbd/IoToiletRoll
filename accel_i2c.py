@@ -4,7 +4,6 @@ from time import sleep
 import sms
 from meme import generate_meme_text, generate_meme
 import time
-from sms import dispatch_text
 from string_utils import *
 
 device_addr = 0x18

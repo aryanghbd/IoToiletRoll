@@ -9,7 +9,6 @@ import paho.mqtt.client as mqtt
 import json
 import tweepy
 
-import sms
 import accel_i2c
 import string_utils
 from meme import generate_meme, generate_meme_text
