@@ -1,6 +1,23 @@
 import requests
 import random
 
+#This header file is the codebase used to generate custom memes, which involved having to write up
+#code to communicate with the imgflip API and generate using REST a meme based on the current user.
+
+#How does it work in abstraction?
+#   -Get the 5 most popular memes, categorise by ID and store them, after a HTTP GET request
+#   -Choose a random one from the 5, generate_meme_text gives relevant textual inputs for top text
+#   and bottom text based on the user input.
+#   -Encapsulate ID of meme, top and bottom text, IMGFLIP auth credentials, into JSON
+#   send the JSON via HTTP POST to ImgFLIP API, it generates the link of our meme
+#   -Then using tweepy, a Python wrapper for the Twitter API, post a tweet on the twitter page
+#   with the link and various information.
+
+def generate_tweet_text(name):
+    captions = [f"Looks like ${name} spun the TP meme wheel of fortune! ", f"Nice one, ${name}, check out the epic meme: ", f"Thanks for using IoTP, ${name}, the TP that makes you laugh, and makes you think, here's your meme! "]
+    return random.choice(captions)
+
+
 def generate_meme_text(id, name, number):
     text0 = ''
     text1 = ''
@@ -42,7 +59,8 @@ def generate_meme(name, number, tweetclient, username, password):
 
 
     # # Replace the text with whatever you want to Tweet about
-    responses = tweetclient.create_tweet(text= "Looks like someone just used the loo and made a meme! " + url)
+    tweettext = generate_tweet_text(name)
+    responses = tweetclient.create_tweet(text=tweettext + url)
     responses = tweetclient.create_tweet
     print(responses)
     return 0
