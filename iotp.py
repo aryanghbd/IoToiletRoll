@@ -55,6 +55,15 @@ test_string = ''
 current_sheets = 0.0
 rolls = 0.0
 
+def dispatch_text(number, content):
+    message = client.messages \
+        .create(
+        body=content,
+        from_='+447897016821',
+        to=number
+    )
+    return 0
+
 def get_final_sheets():
     return current_sheets
 
@@ -90,7 +99,7 @@ def check_for_household():
         return True
 
 def measure(bus, name, number):
-    sms.dispatch_text(number, "You may now begin rolling.", client)
+    dispatch_text(number, "You may now begin rolling.")
     while True:
         #lastZ = None
         axis = None
@@ -123,11 +132,11 @@ def measure(bus, name, number):
                 custom_str = string_utils.generate_custom_string(sheets)
                 outstr = string_utils.generate_output_string(name, sheets)
                 body = outstr + custom_str
-                sms.dispatch_text(number, body, client)
+                dispatch_text(number, body)
                 userdata = {"name":name, "sheets":sheets}
                 if meme_flag:
                     generate_meme(name, sheets, tweetclient, username, password)
-                    sms.dispatch_text(number, "A meme has been generated for you on @toiletdotio, thanks for using!", client)
+                    dispatch_text(number, "A meme has been generated for you on @toiletdotio, thanks for using!")
                 MSG_INFO = mqtt_client.publish("IC.embedded/Useless_System/Data", json.dumps(userdata))
                 revolutions, axis = reset(revolutions, axis)
                 return 0
@@ -143,7 +152,7 @@ def on_message(client, userdata, message):
         household = (json.loads(current_msg))
         with open('household.json', 'w') as file:
             json.dump(household, file)
-        sms.dispatch_text(household[0]['number'], "How many rolls do you have on first time setup?", client)
+        dispatch_text(household[0]['number'], "How many rolls do you have on first time setup?")
         while roll_flag == False:
             pass
         print("Set up household for first time use")
@@ -211,7 +220,7 @@ def main():
         print(start_flag)
         print(meme_flag)
         print(test_string)
-        sms.dispatch_text(number, "Welcome user: " + name + " Would you be interested in a meme after your session finishes?", client)
+        dispatch_text(number, "Welcome user: " + name + " Would you be interested in a meme after your session finishes?")
         while meme_flag is None:
             pass
         bus = accel_i2c.initialize()
