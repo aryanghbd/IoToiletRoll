@@ -217,14 +217,15 @@ def main():
         print("Welcome users")
         print(household)
 
-    if rolls < 10:
-        dispatch_text(household[0]['number'], "You're running low on toilet paper, the last user was: " + last_user)
-
-    if rolls == 0:
-        dispatch_text(household[0]['number'], "You have run out of toilet paper, please replace your roll. The last user was: " + last_user)
-
     while True:
         print("Now waiting for next user...")
+        if rolls < 10:
+            dispatch_text(household[0]['number'], "You're running low on toilet paper, the last user was: " + last_user)
+
+        if rolls == 0:
+            dispatch_text(household[0]['number'],
+                          "You have run out of toilet paper, please replace your roll. The last user was: " + last_user)
+
         while not start_flag:
             pass
         name = get_current_user()
