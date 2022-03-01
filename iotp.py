@@ -113,9 +113,9 @@ def measure(bus, name, number):
             X = accel_i2c.get_X(bus)
             Y = accel_i2c.get_Y(bus)
             Z = accel_i2c.get_Z(bus)
-            if rolls == 0:
+            if rolls < 0:
                 dispatch_text(number, "You have run out of toilet paper, please replace before continuing")
-                while rolls == 0:
+                while rolls < 0:
                     pass
                 #test
             if Z < -7.5 and axis == None:
