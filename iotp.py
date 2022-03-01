@@ -152,12 +152,7 @@ def on_message(client, userdata, message):
         with open('household.json', 'w') as file:
             json.dump(household, file)
         dispatch_text(household[0]['number'], "How many rolls do you have on first time setup?")
-        print(roll_flag)
-        while roll_flag == False:
-            print('bruh')
-            pass
         print("Set up household for first time use")
-
         print(household)
         MSG = mqtt_client.publish("IC.embedded/Useless_System/Responses",
                                   "Household Setup! You may now use the device.")
@@ -223,7 +218,7 @@ def main():
         print(meme_flag)
         print(test_string)
         dispatch_text(number, "Welcome user: " + name + " Would you be interested in a meme after your session finishes?")
-        while meme_flag is None:
+        while meme_flag is None and roll_flag is False:
             pass
         bus = accel_i2c.initialize()
         measure(bus, name, number)
