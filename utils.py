@@ -31,7 +31,7 @@ def generate_output_string(name, number):
     greeting = random.choice(greetings)
     return greeting + name + ". This time round you used " + str(number) + " sheets of toilet paper by our estimates."
 
-def genetate_custom_string(number):
+def generate_custom_string(number):
     if 1 < number < 3:
         return " That was barely anything! Were you rolling for fun?"
     if 4 < number < 10:

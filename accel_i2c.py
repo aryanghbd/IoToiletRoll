@@ -74,7 +74,7 @@ def measure(bus, name, number, client):
             print(revolutions * 1.5)
             if(t_n - t_s > 15):
                 sheets = revolutions * 1.5
-                custom_str = genetate_custom_string(sheets)
+                custom_str = generate_custom_string(sheets)
                 outstr = generate_output_string(name, sheets)
                 body = outstr + custom_str
                 dispatch_text(number, body)

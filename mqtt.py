@@ -16,5 +16,5 @@ def on_message(client, userdata, message):
                                   "Household Setup! You may now use the device.")
     else:
         print("error aryan!")
-        print(len(household))
+        print(check_user(current_msg))
         print(len(current_msg.split()))

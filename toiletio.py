@@ -25,6 +25,8 @@ from utils import *
 
 app = Flask(__name__)
 
+
+
 mqtt_client = mqtt.Client()
 mqtt_client.connect("test.mosquitto.org", port=1883)
 mqtt_client.subscribe("IC.embedded/Useless_System")
