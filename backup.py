@@ -46,11 +46,9 @@ y_reg_low = 0x2A
 
 z_reg_high = 0x2D
 z_reg_low = 0x2C
-max = 0
-#Helpful global variables
-#bus = smbus2.SMBus(1)
-#bus.write_byte_data(0x18, 0x20, 0xA7) #Run accelerometer at 100Hz
-#bus.write_byte_data(0x18, 0x23, 0x00)
+
+
+
 account_sid = 'AC552ea4e452978a40ad8d0061fc83e077'
 auth_token = '244e9e2bc5d559fbc125ef58a2edc70a'
 client = Client(account_sid, auth_token)
