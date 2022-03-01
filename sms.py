@@ -1,5 +1,5 @@
 from twilio.rest import Client
-def dispatch_text(client, number, content):
+def dispatch_text(number, content, client):
     message = client.messages \
         .create(
         body=content,

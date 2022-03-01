@@ -1,16 +1,5 @@
-from utils import *
-
-#Global client in order to pass into functions.
-username = 'toilet.io'
-password = 'Toilettime'
-userAgent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) \
-    AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.117 \
-    Safari/537.36'
-
-tweetclient = tweepy.Client(consumer_key='NJR2pGSoieZyRk9jTPC4ypO9Z',
-                       consumer_secret='L2GeDyGGzL0hezXQQJ5sF86g3nIlD7jg5DscebiSWgtd5ayC2N',
-                       access_token='1496564796950519808-CNGNNX1gkZPSpqANxDUL73nFcrPkQM',
-                       access_token_secret='vYFMKnfHdCFOGh8buoVtoNJ3Yw6oL9kOk7Gl09wThqiYa')
+import requests
+import random
 
 def generate_meme_text(id, name, number):
     text0 = ''
@@ -32,7 +21,7 @@ def generate_meme_text(id, name, number):
             text1 = name
     return text0, text1
 
-def generate_meme(name, number):
+def generate_meme(name, number, tweetclient, username, password):
 #Fetch the available memes
     data = requests.get('https://api.imgflip.com/get_memes').json()['data']['memes']
     images = [{'name':image['name'],'url':image['url'],'id':image['id']} for image in data]
