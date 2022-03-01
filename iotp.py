@@ -152,7 +152,9 @@ def on_message(client, userdata, message):
         with open('household.json', 'w') as file:
             json.dump(household, file)
         dispatch_text(household[0]['number'], "How many rolls do you have on first time setup?")
+        print(roll_flag)
         while roll_flag == False:
+            print('bruh')
             pass
         print("Set up household for first time use")
 
