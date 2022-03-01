@@ -178,6 +178,7 @@ def incoming_sms():
     # Start our TwiML response
     resp = MessagingResponse()
     global meme_flag
+    global rolls, roll_flag
     # Determine the right reply for this message
     if body == 'MEME':
         meme_flag = True
@@ -186,14 +187,13 @@ def incoming_sms():
         meme_flag = False
         resp.message("Response acknowledged, you may now roll")
     elif body.split()[0] == "ROLLS":
-        global rolls, roll_flag
+
         rolls = int(body.split()[1])
         with open('rolls.txt', 'w') as file:
             file.write(str(rolls))
         roll_flag = True
         resp.message("Set up IoTP with roll containing " + str(rolls) + " sheets.")
     elif body.split()[0] == "REFILL":
-        global rolls
         rolls = int(body.split()[1])
         resp.message("IoTP refilled with " + str(rolls) + " sheets.")
     return str(resp)
