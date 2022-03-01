@@ -93,7 +93,7 @@ def reset(revolutions, axis, rolls):
     meme_flag = None
     current_sheets = 0.0
     with open('rolls.txt', 'w') as file:
-        file.write(rolls)
+        file.write(str(rolls))
     return revolutions, axis
 
 def check_for_household():
