@@ -225,6 +225,8 @@ def main():
         if rolls == 0:
             dispatch_text(household[0]['number'],
                           "You have run out of toilet paper, please replace your roll. The last user was: " + last_user)
+            while rolls == 0:
+                pass
 
         while not start_flag:
             pass
