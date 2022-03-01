@@ -46,6 +46,7 @@ mqtt_client.subscribe("IC.embedded/Useless_System/Household")
 client = Client(account_sid, auth_token)
 
 current_msg = ''
+last_user = ''
 household = []
 start_flag = False
 meme_flag = None
@@ -82,7 +83,7 @@ def get_current_user():
     return current_msg
 #Getter function for ease of use
 
-def reset(revolutions, axis):
+def reset(revolutions, axis, rolls):
     print("Sorry, resetting now!")
     revolutions = 0
     axis = None
@@ -91,6 +92,8 @@ def reset(revolutions, axis):
     start_flag = False
     meme_flag = None
     current_sheets = 0.0
+    with open('rolls.txt', 'w') as file:
+        file.write(rolls)
     return revolutions, axis
 
 def check_for_household():
@@ -99,6 +102,7 @@ def check_for_household():
 
 def measure(bus, name, number):
     dispatch_text(number, "You may now begin rolling.")
+    global rolls, last_user
     while True:
         #lastZ = None
         axis = None
@@ -113,6 +117,7 @@ def measure(bus, name, number):
                 axis = Z
             if Z > 8 and axis != None:
                 revolutions = revolutions + 1
+                rolls = rolls - 1.5
                 print("Rolled! Number of revolutions: " + str(revolutions))
                 print("You have now used: " + str(revolutions * 1.5) + " sheets of toilet paper.")
                 axis = None
@@ -137,7 +142,8 @@ def measure(bus, name, number):
                     generate_meme(name, sheets, tweetclient, username, password)
                     dispatch_text(number, "A meme has been generated for you on @toiletdotio, thanks for using!")
                 MSG_INFO = mqtt_client.publish("IC.embedded/Useless_System/Data", json.dumps(userdata))
-                revolutions, axis = reset(revolutions, axis)
+                last_user = get_current_user()
+                revolutions, axis = reset(revolutions, axis, rolls)
                 return 0
             sleep(0.01)
 
@@ -186,6 +192,10 @@ def incoming_sms():
             file.write(str(rolls))
         roll_flag = True
         resp.message("Set up IoTP with roll containing " + str(rolls) + " sheets.")
+    elif body.split()[0] == "REFILL":
+        global rolls
+        rolls = int(body.split()[1])
+        resp.message("IoTP refilled with " + str(rolls) + " sheets.")
     return str(resp)
 
 mqtt_client.on_message = on_message
@@ -193,6 +203,7 @@ mqtt_client.loop_start()
 
 @app.route("/")
 def main():
+    global last_user
     if not os.path.isfile('household.json'):
         print("Waiting for file")
         while not check_for_household():
@@ -206,6 +217,11 @@ def main():
         print("Welcome users")
         print(household)
 
+    if rolls < 10:
+        dispatch_text(household[0]['number'], "You're running low on toilet paper, the last user was: " + last_user)
+
+    if rolls == 0:
+        dispatch_text(household[0]['number'], "You have run out of toilet paper, please replace your roll. The last user was: " + last_user)
 
     while True:
         print("Now waiting for next user...")
