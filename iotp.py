@@ -143,7 +143,7 @@ def measure(bus, name, number):
 
 
 def on_message(client, userdata, message):
-    global current_msg, household, start_flag
+    global current_msg, household, start_flag, roll_flag
     current_msg = str(message.payload.decode("utf-8"))
     if len(current_msg.split()) == 1 and check_for_household():
         start_flag = check_user(current_msg)
