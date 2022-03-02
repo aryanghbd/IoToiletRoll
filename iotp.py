@@ -311,21 +311,6 @@ def main():
 
     while True:
         print("Now waiting for next user...")
-        if rolls < 10:
-            if get_last_user() is not '':
-                dispatch_text(household[0]['number'], "You're running low on toilet paper, the last user was: " + last_user)
-            else:
-                dispatch_text(household[0]['number'], "You're running low on toilet paper")
-        if rolls == 0:
-            #Halt state until refilled.
-            if get_last_user() is not '':
-                dispatch_text(household[0]['number'],
-                          "You have run out of toilet paper, please replace your roll. The last user was: " + last_user)
-            else:
-                dispatch_text(household[0]['number'], "You have run out of toilet paper, please replace your roll.")
-            while rolls == 0:
-                pass
-
         while not start_flag:
             #Wait until a user messages their name via MQTT to start.
             pass
