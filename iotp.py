@@ -301,6 +301,8 @@ def main():
         while not check_for_household():
             pass
     else:
+        while not roll_flag:
+            pass
         with open('rolls.txt') as file:
             rolls = float(file.readline())
         print("Welcome users")
