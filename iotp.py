@@ -336,9 +336,8 @@ def main():
         print("Hello user: " + name)
         print(start_flag)
         print(meme_flag)
-        print(test_string)
         dispatch_text(number, "Welcome user: " + name + " Would you be interested in a meme after your session finishes?")
-        while check_meme_flag() is None:
+        while not meme_flag:
             pass
         bus = accel_i2c.initialize()
         measure(bus, name, number)
