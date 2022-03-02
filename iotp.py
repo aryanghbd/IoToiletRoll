@@ -241,7 +241,7 @@ def on_message(client, userdata, message):
         #If we already have a household and there is only one name
         start_flag = check_user(current_msg)
         #Check if the input is a name in the household
-    if message.topic == "household" and not os.path.isfile('household.json'):
+    if message.topic == "household":
         #If we have not already saved household credentials to a file for local use, do so.
         household = (json.loads(current_msg))
         with open('household.json', 'w') as file:
@@ -264,8 +264,6 @@ def incoming_sms():
     """Send a dynamic reply to an incoming text message"""
     # Get the message the user sent our Twilio number
     body = request.values.get('Body', None)
-    global test_string
-    test_string = body
     #Establish TwiML parameters.
     resp = MessagingResponse()
     global meme_flag
@@ -296,22 +294,18 @@ mqtt_client.loop_start()
 
 @app.route("/")
 def main():
-    global last_user, roll_flag, start_flag
+    global last_user, roll_flag, start_flag, rolls
     #I would like to convert all of these into getters and setters to avoid global usage.
-    if not os.path.isfile('household.json'):
-        #If the local file for household hasn't been generated, put it into await state.
-        print("Waiting for file")
-        while not check_for_household() or not os.path.isfile('rolls.txt'):
+    if not check_for_household():
+        print("Waiting for household to be input")
+        while not check_for_household():
             pass
     else:
-        #Otherwise, load in local parameters.
-        with open('household.json') as file:
-            global household, rolls
-            household = json.load(file)
-            with open('rolls.txt') as rolls:
-                rolls = float(rolls.readline())
+        with open('rolls.txt') as file:
+            rolls = float(file.readline())
         print("Welcome users")
         print(household)
+        #Testing
 
     while True:
         print("Now waiting for next user...")
