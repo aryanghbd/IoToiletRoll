@@ -14,7 +14,7 @@ import random
 #   with the link and various information.
 
 def generate_tweet_text(name):
-    captions = [f"Looks like ${name} spun the TP meme wheel of fortune! ", f"Nice one, ${name}, check out the epic meme: ", f"Thanks for using IoTP, ${name}, the TP that makes you laugh, and makes you think, here's your meme! "]
+    captions = [f"Looks like {name} spun the TP meme wheel of fortune! ", f"Nice one, ${name}, check out the epic meme: ", f"Thanks for using IoTP, ${name}, the TP that makes you laugh, and makes you think, here's your meme! "]
     return random.choice(captions)
 
 
