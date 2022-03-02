@@ -294,7 +294,7 @@ mqtt_client.loop_start()
 
 @app.route("/")
 def main():
-    #global last_user, roll_flag
+    global last_user, roll_flag, start_flag
     #I would like to convert all of these into getters and setters to avoid global usage.
     if not os.path.isfile('household.json'):
         #If the local file for household hasn't been generated, put it into await state.
@@ -328,7 +328,7 @@ def main():
             while rolls == 0:
                 pass
 
-        while not check_start_flag():
+        while not start_flag:
             #Wait until a user messages their name via MQTT to start.
             pass
         name = get_current_user()
