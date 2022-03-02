@@ -5,7 +5,7 @@ import random
 def generate_output_string(name, number):
     greetings = ["What's up, ", "How's it hanging, or should I say... how's it rolling, ", "Greetings from the toilet, ", "All done, ", "Nice flush, "]
     greeting = random.choice(greetings)
-    return greeting + name + f". You rolled $'{number} times this session, taking approximately $'{number*2} sheets by our estimates."
+    return greeting + name + f". You rolled {number} times this session, taking approximately {number*2} sheets by our estimates."
 
 def generate_custom_string(number):
     if 1 <= number <= 3:
