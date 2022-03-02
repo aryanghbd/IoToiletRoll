@@ -256,6 +256,7 @@ def on_message(client, userdata, message):
         print("error aryan!")
         print(len(household))
         print(len(current_msg.split()))
+        print(current_msg)
 
 
 @app.route("/sms", methods=['GET', 'POST'])
