@@ -197,9 +197,9 @@ def measure(bus, name, number):
                 axis = Z
             if Z > 8 and axis != None:
                 revolutions = revolutions + 1
-                rolls = rolls - 1.5
+                rolls = rolls - 2
                 print("Rolled! Number of revolutions: " + str(revolutions))
-                print("You have now used: " + str(revolutions * 1.5) + " sheets of toilet paper.")
+                print("You have now used: " + str(revolutions * 2) + " sheets of toilet paper.")
                 axis = None
                 t_s = time.time()
             #Check if user has not moved for some time.
@@ -210,13 +210,13 @@ def measure(bus, name, number):
             print("Revolutions: " + str(revolutions))
             print(name)
             print(number)
-            print(revolutions * 1.5)
+            print(revolutions * 2)
 
             if(t_n - t_s > 15):
                 #The aforementioned end case
-                sheets = revolutions * 1.5
+                sheets = revolutions * 2
                 custom_str = string_utils.generate_custom_string(sheets)
-                outstr = string_utils.generate_output_string(name, sheets)
+                outstr = string_utils.generate_output_string(name, revolutions)
                 #Generate custom message with random components in header function.
                 body = outstr + custom_str #Concatenate the two strings, then text them
                 dispatch_text(number, body)
