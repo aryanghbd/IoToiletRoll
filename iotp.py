@@ -41,8 +41,8 @@ tweetclient = tweepy.Client(consumer_key=base64.b64decode(settings.get_twitter_c
 #And here is the MQTT client side tokens.
 mqtt_client = mqtt.Client()
 mqtt_client.connect("test.mosquitto.org", port=1883)
-mqtt_client.subscribe("IC.embedded/Useless_System")
-mqtt_client.subscribe("IC.embedded/Useless_System/Household")
+mqtt_client.subscribe("user")
+mqtt_client.subscribe("household")
 
 
 #Establish a Twilio Client for SMS functionality
@@ -165,6 +165,7 @@ def measure(bus, name, number):
                 while rolls < 0:
                     pass
 
+
             #A revolution is measured with the following logic:
             #   -At rest, when device is in roll upright, the Z value is the acceleration
             #   due to gravity, i.e approx 9.8ms^-2
@@ -225,7 +226,7 @@ def measure(bus, name, number):
                 if meme_flag:
                     generate_meme(name, sheets, tweetclient, username, base64.b64decode(password).decode("utf-8"))
                     dispatch_text(number, "A meme has been generated for you on @toiletdotio, thanks for using!")
-                MSG_INFO = mqtt_client.publish("IC.embedded/Useless_System/Data", json.dumps(userdata))
+                MSG_INFO = mqtt_client.publish("score", json.dumps(userdata))
                 last_user = get_current_user()
                 revolutions, axis = reset(revolutions, axis, rolls)
                 return 0
@@ -240,7 +241,7 @@ def on_message(client, userdata, message):
         #If we already have a household and there is only one name
         start_flag = check_user(current_msg)
         #Check if the input is a name in the household
-    if message.topic == "IC.embedded/Useless_System/Household" and not os.path.isfile('household.json'):
+    if message.topic == "household" and not os.path.isfile('household.json'):
         #If we have not already saved household credentials to a file for local use, do so.
         household = (json.loads(current_msg))
         with open('household.json', 'w') as file:
@@ -249,7 +250,7 @@ def on_message(client, userdata, message):
         print("Set up household for first time use")
         print(household)
         #Before starting, text 'head of household', how many sheets they have.
-        MSG = mqtt_client.publish("IC.embedded/Useless_System/Responses",
+        MSG = mqtt_client.publish("responses",
                                   "Household Setup! You may now use the device.")
     else:
         print("error aryan!")
