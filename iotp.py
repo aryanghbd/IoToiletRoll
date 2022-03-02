@@ -219,13 +219,7 @@ def measure(bus, name, number):
                 custom_str = string_utils.generate_custom_string(sheets)
                 outstr = string_utils.generate_output_string(name, revolutions)
                 #Generate custom message with random components in header function.
-                if sheets > last_sheets:
-                    out = f". You used {sheets - last_sheets} more than {last_user}, who used it before you."
-                elif sheets < last_sheets:
-                    out = f". You used {last_sheets - sheets} less than {last_user}, who used it before you."
-                else:
-                    out = ". Thank you for using!"
-                body = outstr + custom_str + out #Concatenate the two strings, then text them
+                body = outstr + custom_str #Concatenate the two strings, then text them
                 dispatch_text(number, body)
                 userdata = {"name":name, "sheets":sheets}
                 #JSON format to dispatch through MQTT - Encrypt this later.
@@ -234,8 +228,6 @@ def measure(bus, name, number):
                     generate_meme(name, sheets, tweetclient, username, base64.b64decode(password).decode("utf-8"))
                     dispatch_text(number, "A meme has been generated for you on @toiletdotio, thanks for using!")
                 MSG_INFO = mqtt_client.publish("score", json.dumps(userdata))
-                last_user = get_current_user()
-                last_sheets = revolutions * 2
                 revolutions, axis = reset(revolutions, axis, rolls)
                 return 0
                 #Reset and await next user.
