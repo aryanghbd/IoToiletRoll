@@ -56,6 +56,7 @@ start_flag = False #Flags to indicate state as Flask is a stateless service, to 
 meme_flag = None
 roll_flag = False
 current_sheets = 0.0
+last_sheets = 0.0
 rolls = 0.0
 #Gathers other values for state
 
@@ -143,7 +144,7 @@ def measure(bus, name, number):
                               f"${name} is now using the device")
     #There is a bit of a latency gap here between sending the HTTP POST and starting, but it is
     #timed well enough.
-    global rolls
+    global rolls, last_sheets
     last_user = get_last_user()
     while True:
         axis = None
@@ -218,7 +219,13 @@ def measure(bus, name, number):
                 custom_str = string_utils.generate_custom_string(sheets)
                 outstr = string_utils.generate_output_string(name, revolutions)
                 #Generate custom message with random components in header function.
-                body = outstr + custom_str #Concatenate the two strings, then text them
+                if sheets > last_sheets:
+                    out = f". You used {sheets - last_sheets} more than {last_user}, who used it before you."
+                elif sheets < last_sheets:
+                    out = f". You used {last_sheets - sheets} less than {last_user}, who used it before you."
+                else:
+                    out = ". Thank you for using!"
+                body = outstr + custom_str + out #Concatenate the two strings, then text them
                 dispatch_text(number, body)
                 userdata = {"name":name, "sheets":sheets}
                 #JSON format to dispatch through MQTT - Encrypt this later.
@@ -228,6 +235,7 @@ def measure(bus, name, number):
                     dispatch_text(number, "A meme has been generated for you on @toiletdotio, thanks for using!")
                 MSG_INFO = mqtt_client.publish("score", json.dumps(userdata))
                 last_user = get_current_user()
+                last_sheets = revolutions * 2
                 revolutions, axis = reset(revolutions, axis, rolls)
                 return 0
                 #Reset and await next user.
