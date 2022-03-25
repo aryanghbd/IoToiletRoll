@@ -1,0 +1,5 @@
+The advanced feature involves the usage of a primitive Android UI developed in Kotlin in order to control hardware based parameters
+remotely and provides a simpler usage and musical app environment for the user. It uses an MQTT based approach to leverage a low-power
+communications medium in order to exploit the USB-powering situation of the board. The state of the knobs triggers an onState call which
+publishes to the relevant hardware topic, which is then listened to on a separate MQTT listener and should be fed to the HAL via Serial input.
+
